@@ -21,6 +21,7 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
         ws: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
       },
       
       // Auth routes also go through gateway

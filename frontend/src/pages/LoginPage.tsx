@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/features/auth/hooks/useAuth';
-import styles from './LoginPage.module.css';
+import styles from '../assets/styles/LoginPage.module.css';
 import logo from '../assets/AskIt_Logo.png';
 
 const LoginPage = () => {
