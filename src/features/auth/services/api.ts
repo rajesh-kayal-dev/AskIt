@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { AuthResponse } from '../types/auth.types.js';
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: '/api',
   headers: {
     'Content-Type': 'application/json',
