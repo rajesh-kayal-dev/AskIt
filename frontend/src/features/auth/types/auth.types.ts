@@ -1,11 +1,13 @@
 export interface User {
-  id: string;
+  userId: string;
+  id?: string;
   name: string;
   email: string;
-  picture: string;
-  credits: number;
-  plan: 'free' | 'starter' | 'pro';
-  createdAt: string;
+  avatar?: string;
+  picture?: string;
+  credits?: number;
+  plan?: 'free' | 'starter' | 'pro';
+  createdAt?: string;
 }
 
 export interface AuthResponse {

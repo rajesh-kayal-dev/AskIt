@@ -1,6 +1,8 @@
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/redux/store';
 
 const StatCard: React.FC<{
     label: string;
@@ -39,7 +41,8 @@ const StatCard: React.FC<{
 );
 
 const DashboardPage = () => {
-    const { user, logout } = useAuth();
+    const { logout } = useAuth();
+    const user = useSelector((state: RootState) => state.user.userData);
 
     return (
         <div style={{
@@ -71,9 +74,9 @@ const DashboardPage = () => {
                     alignItems: 'center',
                     gap: 'var(--spacing-md)',
                 }}>
-                    {user?.picture && (
+                    {(user?.avatar || user?.picture) && (
                         <img
-                            src={user.picture}
+                            src={user?.avatar || user?.picture}
                             alt={user.name}
                             style={{
                                 width: '72px',
