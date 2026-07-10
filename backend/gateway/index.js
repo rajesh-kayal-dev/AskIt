@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import proxy from 'express-http-proxy';
+import cookieParser from 'cookie-parser';
+import { protect } from './middlewares/auth.middleware.js';
+import { getCurrentUser } from './controllers/user.controller.js';
 
 dotenv.config();
 
@@ -15,6 +18,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(cookieParser());
 
 const checkServiceHealth = async (url) => {
   try {
@@ -47,6 +51,8 @@ app.get('/health', async (req, res) => {
 app.use('/auth', proxy(AUTH_SERVICE, {
   proxyReqPathResolver: (req) => '/api/auth' + req.url
 }));
+
+app.get('/user/me', protect, getCurrentUser);
 
 app.use('/user', proxy(AUTH_SERVICE, {
   proxyReqPathResolver: (req) => '/api/user' + req.url
