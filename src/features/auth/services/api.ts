@@ -34,6 +34,6 @@ api.interceptors.response.use(
 
 export const authApi = {
   getProfile: (): Promise<AuthResponse> =>
-    api.get<AuthResponse>('/user/me').then((response) => response.data ?? { success: false }),
+    api.get<AuthResponse>('/me').then((response) => response.data ?? { success: false }),
   logout: (): Promise<void> => api.post('/auth/logout').then(() => undefined),
 };

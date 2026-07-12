@@ -17,18 +17,10 @@ export default defineConfig({
     proxy: {
       // All API requests go through GATEWAY (port 8000)
       '/api': {
-        target: 'http://localhost:8000',  // GATEWAY, not auth service directly
-        changeOrigin: true,
-        secure: false,
-        ws: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      },
-      
-      // Auth routes also go through gateway
-      '/auth': {
         target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
+        ws: true,
       },
     },
   },
