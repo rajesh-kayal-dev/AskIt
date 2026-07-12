@@ -50,7 +50,7 @@ const LoginPage = () => {
 
     // Redirect to backend after short delay to show spinner
     setTimeout(() => {
-      window.location.href = '/auth/google';
+      window.location.href = '/api/auth/google';
     }, 800);
   };
 
