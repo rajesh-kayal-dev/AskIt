@@ -3,7 +3,7 @@ import type { User } from './auth/types/auth.types';
 
 const getCurrentUser = async (): Promise<User | undefined> => {
   try {
-    const response = await api.get<any, User>('/user/me');
+    const response = await api.get<any, User>('/me');
     console.log("Full response:", response);
     return response;
   } catch (error) {
