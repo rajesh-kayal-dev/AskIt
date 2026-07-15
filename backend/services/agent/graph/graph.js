@@ -56,3 +56,5 @@ workflow.addEdge("pdf", "__end__")
 workflow.addEdge("imageGen", "__end__")
 
 const graph = workflow.compile();
+
+export default graph;

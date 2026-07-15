@@ -1,6 +1,6 @@
 import { getMolde } from "../config/llm.models.js"
 
-export const chat = async (params) => {
+export const chatAgent = async (state) => {
     const llm = await getMolde("chat")
     const Systemprompt = `You are AskIt Agent Intelegent AI Assistent`
     const response = await llm.invoke([
