@@ -1,0 +1,85 @@
+- generic [ref=f33e3]:
+  - banner [ref=f33e4]:
+    - navigation [ref=f33e5]:
+      - generic [ref=f33e6]: Nexus AI
+      - generic [ref=f33e8]:
+        - link "The System" [ref=f33e9] [cursor=pointer]:
+          - /url: "#cinematic"
+        - link "Agents" [ref=f33e10] [cursor=pointer]:
+          - /url: "#collection"
+        - link "Architecture" [ref=f33e11] [cursor=pointer]:
+          - /url: "#craft"
+      - button "Get Started" [ref=f33e12] [cursor=pointer]
+  - generic [ref=f33e14]:
+    - generic:
+      - generic:
+        - paragraph: Version No. 07
+        - heading "Quiet Nodes, Waiting Data" [level=1]: Quiet Nodes,Waiting Data
+      - generic:
+        - heading "The First Boot" [level=2]
+        - paragraph: Algorithms unfold as raw data moves through the neural network.
+      - generic:
+        - paragraph: The Initialization
+        - heading "Connected Swarms" [level=2]
+      - generic:
+        - heading "A Full Cluster" [level=2]
+        - paragraph: Forty-two autonomous agents, architected to scale from every angle.
+      - generic:
+        - paragraph: Data Lift
+        - heading "Carried by Cloud" [level=2]
+      - generic:
+        - heading "Into the Stream" [level=2]
+      - generic:
+        - paragraph: Deployed Live
+        - heading "Nexus AI" [level=2]
+        - paragraph: System active — explore the agents below.
+    - generic [ref=f33e22]: 12.75s
+  - generic [ref=f33e55]:
+    - paragraph [ref=f33e57]: The Agents
+    - heading "Autonomous systems built to scale with data" [level=2] [ref=f33e59]
+    - generic [ref=f33e60]:
+      - generic [ref=f33e63] [cursor=pointer]:
+        - generic [ref=f33e64]:
+          - heading "Data Harvester" [level=3] [ref=f33e65]
+          - paragraph [ref=f33e66]: High-frequency extraction for real-time insights.
+        - paragraph [ref=f33e67]: $780/mo
+      - generic [ref=f33e70] [cursor=pointer]:
+        - generic [ref=f33e71]:
+          - heading "Neural Orchestrator" [level=3] [ref=f33e72]
+          - paragraph [ref=f33e73]: Dynamic load balancing that shifts with any traffic.
+        - paragraph [ref=f33e74]: $940/mo
+      - generic [ref=f33e77] [cursor=pointer]:
+        - generic [ref=f33e78]:
+          - heading "Logic Synthesizer" [level=3] [ref=f33e79]
+          - paragraph [ref=f33e80]: Statement deployment, forty-two simultaneous models.
+        - paragraph [ref=f33e81]: $1,260/mo
+  - generic [ref=f33e84]:
+    - heading "Every algorithm is optimized by hand, the moment it compiles." [level=2] [ref=f33e86]
+    - link [ref=f33e87] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=f33e91]:
+    - paragraph [ref=f33e93]: Integration
+    - heading "Deploy seamlessly across your stack" [level=2] [ref=f33e95]
+    - generic [ref=f33e96]:
+      - generic [ref=f33e97]:
+        - heading "Enterprise API" [level=3] [ref=f33e103]
+        - paragraph [ref=f33e104]: Connect your infrastructure directly to our neural clusters with a single API key. Highly scalable, sub-millisecond latency.
+      - generic [ref=f33e105]:
+        - heading "Cloud Native" [level=3] [ref=f33e106]
+        - paragraph [ref=f33e107]: Deploy edge nodes directly inside your AWS, GCP, or Azure environments. Keep your data localized and compliant.
+  - generic [ref=f33e108]:
+    - generic [ref=f33e110]:
+      - generic [ref=f33e111]: Everything
+      - generic [ref=f33e112]: your
+      - generic [ref=f33e113]: autonomous
+      - generic [ref=f33e114]: network
+      - generic [ref=f33e115]: needs,
+      - generic [ref=f33e116]: deployed
+      - generic [ref=f33e117]: into
+      - generic [ref=f33e118]: one
+      - generic [ref=f33e119]: unified
+      - generic [ref=f33e120]: ecosystem.
+    - paragraph [ref=f33e121]: 04 / Architecture
+  - heading "MODELS" [level=2] [ref=f33e123]
+  - heading "SCALE" [level=2] [ref=f33e126]
+  - contentinfo [ref=f33e128]

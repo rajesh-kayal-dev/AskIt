@@ -4,6 +4,7 @@ import { ChatArea } from '../components/ChatArea/ChatArea';
 import { RightPanel } from '../components/RightPanel/RightPanel';
 import { AgentView } from '../components/AgentArea/AgentView';
 import { SettingsModal } from '../components/Modals/SettingsModal';
+import { SearchModal } from '../components/Modals/SearchModal';
 import { useAppSelector } from '../redux/hooks';
 
 export const ChatPage: React.FC = () => {
@@ -25,6 +26,7 @@ export const ChatPage: React.FC = () => {
         <AgentView />
       )}
       <SettingsModal />
+      <SearchModal />
     </div>
   );
 };

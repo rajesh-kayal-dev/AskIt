@@ -1,0 +1,569 @@
+/* ============================================================
+   LoginPage.css — NeonGrid Dark Sign-In Theme
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+/* ─── Reset / Base ─────────────────────────────────────────── */
+.lp-root *,
+.lp-root *::before,
+.lp-root *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.lp-root {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  width: 100%;
+  user-select: none;
+}
+
+/* selection color */
+.lp-root ::selection {
+  background-color: #27272a;
+  color: #fff;
+}
+
+/* ─── Autofill override for dark inputs ─────────────────────── */
+.lp-root input:-webkit-autofill,
+.lp-root input:-webkit-autofill:hover,
+.lp-root input:-webkit-autofill:focus,
+.lp-root input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #09090b inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────── */
+.lp-wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ─── LEFT PANEL ──────────────────────────────────────────────── */
+.lp-left {
+  display: none; /* hidden on mobile */
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+  overflow: hidden;
+  border-right: 1px solid #18181b;
+}
+
+@media (min-width: 1024px) {
+  .lp-left {
+    display: flex;
+    width: 50%;
+  }
+}
+
+.lp-left-bg {
+  position: absolute;
+  inset: 0;
+  background-color: #09090b;
+  /* subtle grain */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  z-index: 0;
+}
+
+.lp-left-glow-tl {
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 80%;
+  height: 80%;
+  background: rgba(39, 39, 42, 0.2);
+  filter: blur(120px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.lp-left-glow-br {
+  position: absolute;
+  bottom: -10%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: rgba(63, 63, 70, 0.1);
+  filter: blur(100px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.lp-grid-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  background-image:
+    linear-gradient(#fff 1px, transparent 1px),
+    linear-gradient(90deg, #fff 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Left panel content layers */
+.lp-left-logo,
+.lp-left-quote,
+.lp-left-footer {
+  position: relative;
+  z-index: 10;
+}
+
+.lp-left-logo-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Quote block */
+.lp-quote-icon {
+  display: block;
+  margin-bottom: 1.5rem;
+  color: #52525b;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.lp-quote-text {
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #d4d4d8;
+  letter-spacing: -0.025em;
+  max-width: 32rem;
+}
+
+.lp-quote-author {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lp-author-avatar {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  background-color: #27272a;
+  border: 1px solid #3f3f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: #a1a1aa;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.lp-author-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.lp-author-title {
+  font-size: 0.75rem;
+  color: #71717a;
+}
+
+/* Footer meta */
+.lp-left-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 0.7rem;
+  color: #52525b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ─── RIGHT PANEL ─────────────────────────────────────────────── */
+.lp-right {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #000;
+  position: relative;
+  z-index: 20;
+}
+
+@media (min-width: 1024px) {
+  .lp-right {
+    width: 50%;
+  }
+}
+
+/* Mobile top logo */
+.lp-mobile-logo {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (min-width: 1024px) {
+  .lp-mobile-logo {
+    display: none;
+  }
+}
+
+/* Form card */
+.lp-form-card {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ─── Header ─────────────────────────────────────────────────── */
+.lp-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lp-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+
+.lp-subtitle {
+  font-size: 0.875rem;
+  color: #71717a;
+  font-weight: 400;
+}
+
+/* ─── Form ───────────────────────────────────────────────────── */
+.lp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.lp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.lp-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #a1a1aa;
+  margin-left: 0.25rem;
+  display: block;
+}
+
+.lp-input {
+  width: 100%;
+  background-color: #09090b;
+  border: 1px solid #27272a;
+  color: #fff;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.lp-input::placeholder {
+  color: #3f3f46;
+}
+
+.lp-input:focus {
+  border-color: #52525b;
+  box-shadow: 0 0 0 1px #52525b, 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Remember / Forgot row ──────────────────────────────────── */
+.lp-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.25rem;
+}
+
+.lp-checkbox-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.5rem;
+}
+
+.lp-checkbox-label input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.lp-checkbox-box {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #3f3f46;
+  border-radius: 0.2rem;
+  background-color: #18181b;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.lp-checkbox-label input[type='checkbox']:checked + .lp-checkbox-box {
+  background-color: #fff;
+  border-color: #fff;
+}
+
+.lp-checkbox-checkmark {
+  display: none;
+  width: 0.65rem;
+  height: 0.65rem;
+  stroke: #000;
+  stroke-width: 3;
+  fill: none;
+}
+
+.lp-checkbox-label input[type='checkbox']:checked ~ .lp-checkbox-checkmark,
+.lp-checkbox-label input[type='checkbox']:checked + .lp-checkbox-box .lp-checkbox-checkmark {
+  display: block;
+}
+
+/* Trick: the checkmark lives inside the box div */
+.lp-checkbox-box .lp-checkbox-checkmark {
+  display: none;
+}
+.lp-checkbox-label input[type='checkbox']:checked + .lp-checkbox-box .lp-checkbox-checkmark {
+  display: block;
+}
+
+.lp-checkbox-text {
+  font-size: 0.75rem;
+  color: #a1a1aa;
+  transition: color 0.2s;
+  user-select: none;
+}
+
+.lp-checkbox-label:hover .lp-checkbox-text {
+  color: #d4d4d8;
+}
+
+.lp-forgot-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #a1a1aa;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.lp-forgot-link:hover {
+  color: #fff;
+}
+
+/* ─── Submit button ──────────────────────────────────────────── */
+.lp-submit-btn {
+  width: 100%;
+  background-color: #fff;
+  color: #000;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.lp-submit-btn:hover {
+  background-color: #e4e4e7;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+}
+
+.lp-submit-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #27272a, 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Divider ────────────────────────────────────────────────── */
+.lp-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.lp-divider-line {
+  flex: 1;
+  border-top: 1px solid #18181b;
+}
+
+.lp-divider-text {
+  position: relative;
+  background-color: #000;
+  padding: 0 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #52525b;
+}
+
+/* ─── Social buttons ─────────────────────────────────────────── */
+.lp-social-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.lp-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #09090b;
+  border: 1px solid #27272a;
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.lp-social-btn:hover {
+  border-color: #52525b;
+  background-color: #18181b;
+}
+
+.lp-social-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  stroke: #a1a1aa;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.2s;
+}
+
+.lp-social-btn:hover .lp-social-icon {
+  stroke: #fff;
+}
+
+.lp-social-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #a1a1aa;
+  transition: color 0.2s;
+}
+
+.lp-social-btn:hover .lp-social-label {
+  color: #fff;
+}
+
+/* ─── Footer signup link ─────────────────────────────────────── */
+.lp-footer-text {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #71717a;
+  padding-top: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.lp-footer-link {
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  text-underline-offset: 4px;
+  transition: text-decoration 0.2s;
+}
+
+.lp-footer-link:hover {
+  text-decoration: underline;
+  text-decoration-color: #52525b;
+}
+
+/* ─── Bottom-right help link ─────────────────────────────────── */
+.lp-help-link {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #52525b;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.lp-help-link:hover {
+  color: #a1a1aa;
+}
+
+/* ─── Top-right back link ────────────────────────────────────── */
+.lp-back-link {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #52525b;
+  text-decoration: none;
+  transition: color 0.2s;
+  z-index: 30;
+}
+
+.lp-back-link:hover {
+  color: #a1a1aa;
+}
+
+.lp-help-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* ─── Disabled social button (coming soon) ──────────────────── */
+.lp-social-btn--disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.lp-help-arrow {
+  width: 0.875rem;
+  height: 0.875rem;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

@@ -36,10 +36,10 @@ export const authApi = {
   getProfile: (): Promise<AuthResponse> =>
     api.get('/me').then((res: unknown) => {
       const user = res as Record<string, unknown>;
-      if (user && user.userId) {
+      if (user && (user.userId || user._id || user.email)) {
         return { success: true, data: { user } as any };
       }
-      return res as any ?? { success: false };
+      return { success: false };
     }).catch(() => ({ success: false })),
   logout: (): Promise<void> => api.post('/auth/logout').then(() => undefined),
 };

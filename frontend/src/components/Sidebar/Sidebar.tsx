@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setSidebarOpen, toggleTheme, setSettingsModalOpen, toggleSidebar, setActiveView } from '../../redux/uiSlice';
+import { setSidebarOpen, toggleTheme, setSettingsModalOpen, toggleSidebar, setActiveView, setSearchModalOpen } from '../../redux/uiSlice';
 import { X, Plus, Search, Settings, HelpCircle, ChevronRight, LogOut, PanelLeft, SquarePen, Bot, Presentation, MessageSquare, Code, Image, FileText } from 'lucide-react';
 import { ChatList } from './ChatList';
 import { cn } from '../../lib/utils';
@@ -45,8 +45,17 @@ export const Sidebar: React.FC = () => {
             <>
               <div className="flex items-center gap-2 overflow-hidden mt-1">
                 <img src="/AskIt_Logo.png" alt="AskIT Logo" className="w-8 h-8 object-contain" />
+                <span className="text-[1.4rem] font-semibold tracking-wide lowercase opacity-70" style={{ color: 'var(--text-primary)', fontFamily: "'Outfit', sans-serif" }}>askit</span>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0 mt-1">
+              <div className="flex items-center gap-1 flex-shrink-0 mt-1">
+                <button
+                  className="w-7 h-7 rounded-md hidden lg:flex items-center justify-center cursor-pointer border-none transition-all duration-200 hover:bg-[var(--bg-hover)]"
+                  style={{ background: 'transparent' }}
+                  onClick={() => dispatch(setSearchModalOpen(true))}
+                  title="Search"
+                >
+                  <Search className="w-[18px] h-[18px]" style={{ color: 'var(--text-secondary)' }} />
+                </button>
                 <button
                   className="w-7 h-7 rounded-md hidden lg:flex items-center justify-center cursor-pointer border-none transition-all duration-200 hover:bg-[var(--bg-hover)]"
                   style={{ background: 'transparent' }}
@@ -162,6 +171,7 @@ export const Sidebar: React.FC = () => {
               <button
                 className="w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer transition-all hover:bg-[var(--bg-hover)] border-none"
                 style={{ background: 'transparent', color: 'var(--text-secondary)' }}
+                onClick={() => dispatch(setSearchModalOpen(true))}
                 title="Search"
               >
                 <Search className="w-5 h-5" />

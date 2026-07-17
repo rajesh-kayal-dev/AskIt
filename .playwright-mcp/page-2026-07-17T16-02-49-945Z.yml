@@ -1,0 +1,12 @@
+- generic [ref=f8e3]:
+  - generic [ref=f8e4]: "[plugin:vite:oxc] Transform failed with 2 errors: [PARSE_ERROR] Identifier `canvas` has already been declared ╭─[ src/utils/landingScripts.ts:23:13 ] │ 23 │ const canvas = document.getElementById('particlesBg'); │ ───┬── │ ╰──── `canvas` has already been declared here │ 405 │ const canvas = document.getElementById('petalCanvas'); │ ───┬── │ ╰──── It can not be redeclared here ─────╯ [PARSE_ERROR] Identifier `reduce` has already been declared ╭─[ src/utils/landingScripts.ts:402:7 ] │ 402 │ const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; │ ───┬── │ ╰──── `reduce` has already been declared here │ 643 │ if(!window.gsap||!window.ScrollTrigger)return;gsap.registerPlugin(ScrollTrigger);var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)return; │ ───┬── │ ╰──── It can not be redeclared here ─────╯"
+  - generic [ref=f8e5]: C:/Users/rajes/OneDrive/Desktop/Advance Ai Mern Project/AskIt/frontend/src/utils/landingScripts.ts
+  - generic [ref=f8e7]: at transformWithOxc (file:///C:/Users/rajes/OneDrive/Desktop/Advance%20Ai%20Mern%20Project/AskIt/frontend/node_modules/vite/dist/node/chunks/node.js:4017:19) at TransformPluginContext.transform (file:///C:/Users/rajes/OneDrive/Desktop/Advance%20Ai%20Mern%20Project/AskIt/frontend/node_modules/vite/dist/node/chunks/node.js:4088:26) at EnvironmentPluginContainer.transform (file:///C:/Users/rajes/OneDrive/Desktop/Advance%20Ai%20Mern%20Project/AskIt/frontend/node_modules/vite/dist/node/chunks/node.js:30151:51) at async loadAndTransform (file:///C:/Users/rajes/OneDrive/Desktop/Advance%20Ai%20Mern%20Project/AskIt/frontend/node_modules/vite/dist/node/chunks/node.js:20098:26) at async viteTransformMiddleware (file:///C:/Users/rajes/OneDrive/Desktop/Advance%20Ai%20Mern%20Project/AskIt/frontend/node_modules/vite/dist/node/chunks/node.js:24559:20)
+  - generic [ref=f8e8]:
+    - text: Click outside, press Esc key, or fix the code to dismiss.You can also disable this overlay by setting
+    - code [ref=f8e9]: server.hmr.overlay
+    - text: to
+    - code [ref=f8e10]: "false"
+    - text: in
+    - code [ref=f8e11]: vite.config.ts
+    - text: .

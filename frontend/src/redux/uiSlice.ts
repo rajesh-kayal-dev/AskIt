@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'system';
 export type ActiveView = 'chat' | 'agent';
 
 interface UiState {
@@ -8,6 +8,7 @@ interface UiState {
   isPanelOpen: boolean;
   theme: Theme;
   isSettingsModalOpen: boolean;
+  isSearchModalOpen: boolean;
   activeView: ActiveView;
 }
 
@@ -15,9 +16,8 @@ const getInitialTheme = (): Theme => {
   if (typeof window !== 'undefined') {
     const savedTheme = localStorage.getItem('askit-theme') as Theme;
     if (savedTheme) return savedTheme;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
-  return 'dark';
+  return 'system';
 };
 
 const initialState: UiState = {
@@ -25,6 +25,7 @@ const initialState: UiState = {
   isPanelOpen: false,
   theme: getInitialTheme(),
   isSettingsModalOpen: false,
+  isSearchModalOpen: false,
   activeView: 'chat',
 };
 
@@ -57,6 +58,9 @@ export const uiSlice = createSlice({
     setSettingsModalOpen: (state, action: PayloadAction<boolean>) => {
       state.isSettingsModalOpen = action.payload;
     },
+    setSearchModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.isSearchModalOpen = action.payload;
+    },
     setActiveView: (state, action: PayloadAction<ActiveView>) => {
       state.activeView = action.payload;
     },
@@ -71,6 +75,7 @@ export const {
   toggleTheme,
   setTheme,
   setSettingsModalOpen,
+  setSearchModalOpen,
   setActiveView,
 } = uiSlice.actions;
 

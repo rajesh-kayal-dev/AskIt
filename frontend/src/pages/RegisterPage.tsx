@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/features/auth/hooks/useAuth';
-import '../assets/styles/LoginPage.css';
+import '../assets/styles/LoginPage.css'; // reuse the same stylesheet
 
-/* ─── Inline SVG icon helpers ─────────────────────────────────── */
+/* ─── Inline SVG icon helpers (shared with LoginPage) ─────────── */
 const QuoteIcon = () => (
   <svg viewBox="0 0 24 24" width="24" height="24" fill="none"
     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -50,11 +50,11 @@ const CheckIcon = () => (
 );
 
 /* ─── Component ───────────────────────────────────────────────── */
-const LoginPage = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [remember, setRemember] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -62,7 +62,7 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleGoogleLogin = (e: React.MouseEvent) => {
+  const handleGoogleSignUp = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setTimeout(() => {
@@ -72,7 +72,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    /* Wire up email/password auth here if needed */
+    /* Wire up registration logic here */
   };
 
   return (
@@ -95,9 +95,9 @@ const LoginPage = () => {
           <div className="lp-left-quote">
             <QuoteIcon />
             <p className="lp-quote-text">
-              "AskIT has completely transformed how our team finds answers.
-              It understands context like a senior engineer and delivers
-              instant, accurate responses every time."
+              "Getting started with AskIT took under a minute.
+              Now our entire team has an AI knowledge assistant
+              that actually understands what we're building."
             </p>
             <div className="lp-quote-author">
               <div className="lp-author-avatar">RK</div>
@@ -130,75 +130,97 @@ const LoginPage = () => {
 
             {/* Header */}
             <div className="lp-header">
-              <h1 className="lp-title">Welcome back</h1>
-              <p className="lp-subtitle">Sign in to your AskIT account and start asking smarter questions.</p>
+              <h1 className="lp-title">Create your account</h1>
+              <p className="lp-subtitle">Join AskIT and start getting instant, AI-powered answers.</p>
             </div>
 
             {/* Form */}
             <form className="lp-form" onSubmit={handleSubmit}>
 
+              {/* Full Name */}
+              <div className="lp-field">
+                <label htmlFor="rp-name" className="lp-label">Full name</label>
+                <input
+                  id="rp-name"
+                  type="text"
+                  className="lp-input"
+                  placeholder="John Doe"
+                  autoComplete="name"
+                  required
+                />
+              </div>
+
               {/* Email */}
               <div className="lp-field">
-                <label htmlFor="lp-email" className="lp-label">Email address</label>
+                <label htmlFor="rp-email" className="lp-label">Email address</label>
                 <input
-                  id="lp-email"
+                  id="rp-email"
                   type="email"
                   className="lp-input"
                   placeholder="name@company.com"
                   autoComplete="email"
+                  required
                 />
               </div>
 
               {/* Password */}
               <div className="lp-field">
-                <label htmlFor="lp-password" className="lp-label">Password</label>
+                <label htmlFor="rp-password" className="lp-label">Password</label>
                 <input
-                  id="lp-password"
+                  id="rp-password"
                   type="password"
                   className="lp-input"
-                  placeholder="••••••••"
-                  autoComplete="current-password"
+                  placeholder="Min. 8 characters"
+                  autoComplete="new-password"
+                  required
                 />
               </div>
 
-              {/* Remember / Forgot */}
+              {/* Terms checkbox */}
               <div className="lp-actions-row">
                 <label className="lp-checkbox-label">
                   <input
                     type="checkbox"
-                    checked={remember}
-                    onChange={(e) => setRemember(e.target.checked)}
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
                   />
                   <div className="lp-checkbox-box">
                     <CheckIcon />
                   </div>
-                  <span className="lp-checkbox-text">Remember for 30 days</span>
+                  <span className="lp-checkbox-text">
+                    I agree to the&nbsp;
+                    <a href="/terms" className="lp-forgot-link" style={{ fontSize: 'inherit' }}>Terms &amp; Privacy</a>
+                  </span>
                 </label>
-                <a href="#" className="lp-forgot-link">Forgot password?</a>
               </div>
 
               {/* Submit */}
-              <button type="submit" className="lp-submit-btn">
-                Sign in
+              <button
+                type="submit"
+                className="lp-submit-btn"
+                disabled={!agreeTerms}
+                style={{ opacity: agreeTerms ? 1 : 0.45, cursor: agreeTerms ? 'pointer' : 'not-allowed' }}
+              >
+                Create account
               </button>
             </form>
 
             {/* Divider */}
             <div className="lp-divider">
               <div className="lp-divider-line" />
-              <span className="lp-divider-text">Or continue with</span>
+              <span className="lp-divider-text">Or sign up with</span>
               <div className="lp-divider-line" />
             </div>
 
             {/* Social buttons */}
             <div className="lp-social-grid">
-              {/* GitHub – coming soon, disabled */}
+              {/* GitHub — coming soon, disabled */}
               <button
                 type="button"
                 className="lp-social-btn lp-social-btn--disabled"
                 disabled
-                aria-label="GitHub sign-in coming soon"
-                title="GitHub login coming soon"
+                aria-label="GitHub sign-up coming soon"
+                title="GitHub sign-up coming soon"
               >
                 <GitHubIcon />
                 <span className="lp-social-label">GitHub</span>
@@ -206,9 +228,9 @@ const LoginPage = () => {
               <button
                 type="button"
                 className="lp-social-btn"
-                onClick={handleGoogleLogin}
+                onClick={handleGoogleSignUp}
                 disabled={isLoading}
-                aria-label="Sign in with Google"
+                aria-label="Sign up with Google"
               >
                 <ChromeIcon />
                 <span className="lp-social-label">
@@ -219,8 +241,8 @@ const LoginPage = () => {
 
             {/* Footer */}
             <p className="lp-footer-text">
-              New to AskIT?{' '}
-              <Link to="/register" className="lp-footer-link">Create an account</Link>
+              Already have an account?{' '}
+              <Link to="/login" className="lp-footer-link">Sign in</Link>
             </p>
 
           </div>
@@ -237,4 +259,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

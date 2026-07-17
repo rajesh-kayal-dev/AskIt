@@ -19,3 +19,26 @@ export const protect = async (req, res, next) => {
     res.status(500).json({ message: 'Protect Error', error: error.message });
   }
 };
+
+export const optionalAuth = async (req, res, next) => {
+  try {
+    const sessionId = req.cookies?.session;
+    if (!sessionId) {
+      req.user = null;
+      return next();
+    }
+
+    const session = await redis.get(`session:${sessionId}`);
+    
+    if (!session) {
+      req.user = null;
+      return next();
+    }
+
+    req.user = JSON.parse(session);
+    next();
+  } catch (error) {
+    req.user = null;
+    next();
+  }
+};

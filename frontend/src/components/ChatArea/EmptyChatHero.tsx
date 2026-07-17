@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Globe, Wrench, Atom, Plus, ArrowUp } from 'lucide-react';
+import { Globe, Wrench, Atom, Plus, ArrowUp, Mic, AudioLines } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { addMessage, setIsGenerating } from '../../redux/chatSlice';
 import { chatService } from '../../services/api';
 
 export const EmptyChatHero: React.FC = () => {
   const [content, setContent] = useState('');
+  const [isVoiceAgentActive, setIsVoiceAgentActive] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dispatch = useAppDispatch();
   const { isGenerating, model } = useAppSelector((state) => state.chat);
@@ -114,7 +115,7 @@ export const EmptyChatHero: React.FC = () => {
             onKeyDown={handleKeyDown}
             disabled={isGenerating}
             className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-transparent resize-none text-[15px] placeholder:text-[var(--text-muted)]"
-            placeholder="How can I help you today?"
+            placeholder={isVoiceAgentActive ? "Connecting..." : "How can I help you today?"}
             rows={2}
             style={{ color: 'var(--text-primary)', boxShadow: 'none' }}
           />
@@ -150,14 +151,54 @@ export const EmptyChatHero: React.FC = () => {
               </button>
             </div>
 
-            <button 
-              onClick={(e) => handleSubmit(e)}
-              disabled={!content.trim() || isGenerating}
-              className="w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: content.trim() ? 'var(--text-primary)' : 'var(--bg-hover)', color: content.trim() ? 'var(--bg-primary)' : 'var(--text-muted)' }}
-            >
-              <ArrowUp className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-1.5">
+              {/* Voice Typing */}
+              <button 
+                type="button"
+                className="w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer transition-colors"
+                style={{ background: 'transparent', color: 'var(--text-secondary)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-hover)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+                title="Voice typing"
+              >
+                <Mic className="w-4 h-4" />
+              </button>
+
+              {/* Conditional Voice Assistant / Send / Cancel Button */}
+              {isVoiceAgentActive ? (
+                <button 
+                  type="button"
+                  onClick={() => setIsVoiceAgentActive(false)}
+                  className="h-8 px-3.5 rounded-full flex items-center justify-center gap-1.5 border-none cursor-pointer transition-all"
+                  style={{ background: '#003a80', color: '#ffffff', fontSize: '13px', fontWeight: 500 }}
+                  title="Stop voice agent"
+                >
+                  <span className="flex gap-0.5 mt-[-4px] tracking-tighter text-lg leading-none opacity-80">•••</span>
+                  {content.trim().length === 0 ? 'Cancel' : 'Stop'}
+                </button>
+              ) : content.trim().length === 0 ? (
+                <button 
+                  type="button"
+                  onClick={() => setIsVoiceAgentActive(true)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer transition-colors"
+                  style={{ background: 'var(--bg-tertiary)', color: 'var(--text-secondary)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-hover)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--bg-tertiary)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+                  title="Voice assistant chat"
+                >
+                  <AudioLines className="w-4 h-4" />
+                </button>
+              ) : (
+                <button 
+                  onClick={(e) => handleSubmit(e)}
+                  disabled={isGenerating}
+                  className="w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ background: 'var(--text-primary)', color: 'var(--bg-primary)' }}
+                >
+                  <ArrowUp className="w-4 h-4" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
 

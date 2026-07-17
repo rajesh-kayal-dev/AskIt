@@ -2,10 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { addMessage, setIsGenerating } from '../../redux/chatSlice';
 import { chatService } from '../../services/api';
-import { Paperclip, Mic, ArrowUp } from 'lucide-react';
+import { Paperclip, Mic, ArrowUp, AudioLines } from 'lucide-react';
 
 export const MessageInput: React.FC = () => {
   const [content, setContent] = useState('');
+  const [isVoiceAgentActive, setIsVoiceAgentActive] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dispatch = useAppDispatch();
   const { isGenerating, model } = useAppSelector((state) => state.chat);
@@ -96,7 +97,7 @@ export const MessageInput: React.FC = () => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask anything..."
+            placeholder={isVoiceAgentActive ? "Connecting..." : "Ask anything..."}
             className="flex-1 resize-none min-h-[24px] max-h-[160px] py-2 px-0 border-0 border-transparent outline-none focus:outline-none focus:ring-0 focus:border-transparent text-base leading-6 overflow-y-auto"
             style={{
               background: 'transparent',
@@ -108,28 +109,51 @@ export const MessageInput: React.FC = () => {
             disabled={isGenerating}
           />
 
-          {/* Mic Button */}
+          {/* Mic Button (Voice Typing) */}
           <button
             type="button"
             className="btn-interact w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer border-none flex-shrink-0 transition-all hover:bg-[var(--bg-hover)]"
             style={{ background: 'transparent' }}
-            title="Voice input"
+            title="Voice typing"
           >
             <Mic className="w-5 h-5" style={{ strokeWidth: 2, color: 'var(--text-tertiary)' }} />
           </button>
 
-          {/* Send Button */}
-          <button
-            type="submit"
-            className="send-btn w-10 h-10 rounded-xl flex items-center justify-center text-white border-none cursor-pointer transition-all duration-200 flex-shrink-0 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
-            style={{
-              background: 'var(--gradient-button)',
-              boxShadow: 'var(--shadow-md)',
-            }}
-            disabled={!content.trim() || isGenerating}
-          >
-            <ArrowUp className="w-5 h-5" style={{ strokeWidth: 2 }} />
-          </button>
+          {/* Conditional Voice Assistant / Send / Cancel Button */}
+          {isVoiceAgentActive ? (
+            <button 
+              type="button"
+              onClick={() => setIsVoiceAgentActive(false)}
+              className="h-10 px-4 rounded-xl flex items-center justify-center gap-1.5 border-none cursor-pointer transition-all"
+              style={{ background: '#003a80', color: '#ffffff', fontSize: '14px', fontWeight: 500 }}
+              title="Stop voice agent"
+            >
+              <span className="flex gap-0.5 mt-[-4px] tracking-tighter text-lg leading-none opacity-80">•••</span>
+              {content.trim().length === 0 ? 'Cancel' : 'Stop'}
+            </button>
+          ) : content.trim().length === 0 ? (
+            <button
+              type="button"
+              onClick={() => setIsVoiceAgentActive(true)}
+              className="btn-interact w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer border-none flex-shrink-0 transition-all hover:bg-[var(--bg-hover)]"
+              style={{ background: 'transparent' }}
+              title="Voice assistant chat"
+            >
+              <AudioLines className="w-5 h-5" style={{ strokeWidth: 2, color: 'var(--text-tertiary)' }} />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="send-btn w-10 h-10 rounded-xl flex items-center justify-center text-white border-none cursor-pointer transition-all duration-200 flex-shrink-0 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+              style={{
+                background: 'var(--gradient-button)',
+                boxShadow: 'var(--shadow-md)',
+              }}
+              disabled={isGenerating}
+            >
+              <ArrowUp className="w-5 h-5" style={{ strokeWidth: 2 }} />
+            </button>
+          )}
         </form>
       </div>
     </div>

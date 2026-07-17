@@ -1,0 +1,78 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - navigation [ref=e5]:
+      - generic [ref=e6]: Nexus AI
+      - generic [ref=e8]:
+        - link "The System" [ref=e9] [cursor=pointer]:
+          - /url: "#cinematic"
+        - link "Agents" [ref=e10] [cursor=pointer]:
+          - /url: "#collection"
+        - link "Architecture" [ref=e11] [cursor=pointer]:
+          - /url: "#craft"
+      - button "Get Started" [ref=e12] [cursor=pointer]
+  - generic [ref=e14]:
+    - generic:
+      - generic:
+        - paragraph: Version No. 07
+        - heading "Quiet Nodes, Waiting Data" [level=1]: Quiet Nodes,Waiting Data
+      - generic:
+        - heading "The First Boot" [level=2]
+        - paragraph: Algorithms unfold as raw data moves through the neural network.
+      - generic:
+        - paragraph: The Initialization
+        - heading "Connected Swarms" [level=2]
+      - generic:
+        - heading "A Full Cluster" [level=2]
+        - paragraph: Forty-two autonomous agents, architected to scale from every angle.
+      - generic:
+        - paragraph: Data Lift
+        - heading "Carried by Cloud" [level=2]
+      - generic:
+        - heading "Into the Stream" [level=2]
+      - generic:
+        - paragraph: Deployed Live
+        - heading "Nexus AI" [level=2]
+        - paragraph: System active — explore the agents below.
+    - generic [ref=e22]: 12.75s
+  - generic [ref=e230]:
+    - paragraph [ref=e232]: The Agents
+    - heading "Autonomous systems built to scale with data" [level=2] [ref=e234]
+    - generic [ref=e235]:
+      - generic [ref=e238] [cursor=pointer]:
+        - generic [ref=e239]:
+          - heading "Data Harvester" [level=3] [ref=e240]
+          - paragraph [ref=e241]: High-frequency extraction for real-time insights.
+        - paragraph [ref=e242]: $780/mo
+      - generic [ref=e245] [cursor=pointer]:
+        - generic [ref=e246]:
+          - heading "Neural Orchestrator" [level=3] [ref=e247]
+          - paragraph [ref=e248]: Dynamic load balancing that shifts with any traffic.
+        - paragraph [ref=e249]: $940/mo
+      - generic [ref=e252] [cursor=pointer]:
+        - generic [ref=e253]:
+          - heading "Logic Synthesizer" [level=3] [ref=e254]
+          - paragraph [ref=e255]: Statement deployment, forty-two simultaneous models.
+        - paragraph [ref=e256]: $1,260/mo
+  - generic [ref=e259]:
+    - heading "Every algorithm is optimized by hand, the moment it compiles." [level=2] [ref=e261]
+    - link "Explore our architecture" [ref=e262] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=e263]:
+    - paragraph [ref=e265]: Integration
+    - heading "Deploy seamlessly across your stack" [level=2] [ref=e267]
+  - generic [ref=e269]:
+    - generic [ref=e271]:
+      - generic [ref=e272]: Everything
+      - generic [ref=e273]: your
+      - generic [ref=e274]: autonomous
+      - generic [ref=e275]: network
+      - generic [ref=e276]: needs,
+      - generic [ref=e277]: deployed
+      - generic [ref=e278]: into
+      - generic [ref=e279]: one
+      - generic [ref=e280]: unified
+      - generic [ref=e281]: ecosystem.
+    - paragraph [ref=e282]: 04 / Architecture
+  - heading "MODELS" [level=2] [ref=e284]
+  - heading "SCALE" [level=2] [ref=e287]
+  - contentinfo [ref=e289]
