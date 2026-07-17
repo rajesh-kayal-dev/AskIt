@@ -24,7 +24,7 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && window.location.pathname !== '/login') {
       localStorage.removeItem('askit_token');
       window.location.href = '/login';
     }
@@ -34,6 +34,12 @@ api.interceptors.response.use(
 
 export const authApi = {
   getProfile: (): Promise<AuthResponse> =>
-    api.get<AuthResponse>('/me').then((response) => response.data ?? { success: false }),
+    api.get('/me').then((res: unknown) => {
+      const user = res as Record<string, unknown>;
+      if (user && (user.userId || user._id || user.email)) {
+        return { success: true, data: { user } as any };
+      }
+      return { success: false };
+    }).catch(() => ({ success: false })),
   logout: (): Promise<void> => api.post('/auth/logout').then(() => undefined),
 };

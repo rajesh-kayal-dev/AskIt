@@ -1,0 +1,31 @@
+
+          @keyframes bouquetFloat {
+            0%   { transform: translateY(0); }
+            50%  { transform: translateY(-1.25rem); }
+            100% { transform: translateY(0); }
+          }
+          #bouquet {
+            animation: bouquetFloat 5s ease-in-out infinite;
+          }
+        
+
+              @keyframes soft-float-aura-emrgurr6g15xfazn2 {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-24px); }
+              }
+              .anim-float-aura-emrgurr6g15xfazn2 {
+                animation: soft-float-aura-emrgurr6g15xfazn2 6s ease-in-out infinite;
+                will-change: transform;
+              }
+              @supports (animation-timeline: scroll()) {
+                @keyframes scroll-zoom-aura-emrgurr6g15xfazn2 {
+                  0% { transform: scale(1); }
+                  100% { transform: scale(1.4); }
+                }
+                .anim-scroll-aura-emrgurr6g15xfazn2 {
+                  animation: scroll-zoom-aura-emrgurr6g15xfazn2 linear forwards;
+                  animation-timeline: scroll();
+                  will-change: transform;
+                }
+              }
+            

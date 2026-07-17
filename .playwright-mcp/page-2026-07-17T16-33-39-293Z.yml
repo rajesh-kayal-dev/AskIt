@@ -1,0 +1,141 @@
+- generic [ref=f20e3]:
+  - banner [ref=f20e4]:
+    - navigation [ref=f20e5]:
+      - generic [ref=f20e6]: Nexus AI
+      - generic [ref=f20e8]:
+        - link "The System" [ref=f20e9] [cursor=pointer]:
+          - /url: "#cinematic"
+        - link "Agents" [ref=f20e10] [cursor=pointer]:
+          - /url: "#collection"
+        - link "Architecture" [ref=f20e11] [cursor=pointer]:
+          - /url: "#craft"
+      - button "Get Started" [ref=f20e12] [cursor=pointer]
+  - generic [ref=f20e14]:
+    - generic:
+      - generic:
+        - paragraph: Version No. 07
+        - heading "Quiet Nodes, Waiting Data" [level=1]: Quiet Nodes,Waiting Data
+      - generic:
+        - heading "The First Boot" [level=2]
+        - paragraph: Algorithms unfold as raw data moves through the neural network.
+      - generic:
+        - paragraph: The Initialization
+        - heading "Connected Swarms" [level=2]
+      - generic:
+        - heading "A Full Cluster" [level=2]
+        - paragraph: Forty-two autonomous agents, architected to scale from every angle.
+      - generic:
+        - paragraph: Data Lift
+        - heading "Carried by Cloud" [level=2]
+      - generic:
+        - heading "Into the Stream" [level=2]
+      - generic:
+        - paragraph: Deployed Live
+        - heading "Nexus AI" [level=2]
+        - paragraph: System active — explore the agents below.
+    - generic [ref=f20e22]: 12.75s
+  - generic [ref=f20e230]:
+    - paragraph [ref=f20e232]: The Agents
+    - heading "Autonomous systems built to scale with data" [level=2] [ref=f20e234]
+    - generic [ref=f20e235]:
+      - generic [ref=f20e238] [cursor=pointer]:
+        - generic [ref=f20e239]:
+          - heading "Data Harvester" [level=3] [ref=f20e240]
+          - paragraph [ref=f20e241]: High-frequency extraction for real-time insights.
+        - paragraph [ref=f20e242]: $780/mo
+      - generic [ref=f20e245] [cursor=pointer]:
+        - generic [ref=f20e246]:
+          - heading "Neural Orchestrator" [level=3] [ref=f20e247]
+          - paragraph [ref=f20e248]: Dynamic load balancing that shifts with any traffic.
+        - paragraph [ref=f20e249]: $940/mo
+      - generic [ref=f20e252] [cursor=pointer]:
+        - generic [ref=f20e253]:
+          - heading "Logic Synthesizer" [level=3] [ref=f20e254]
+          - paragraph [ref=f20e255]: Statement deployment, forty-two simultaneous models.
+        - paragraph [ref=f20e256]: $1,260/mo
+  - generic [ref=f20e259]:
+    - heading "Every algorithm is optimized by hand, the moment it compiles." [level=2] [ref=f20e261]
+    - link [ref=f20e262] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=f20e266]:
+    - paragraph [ref=f20e268]: Integration
+    - heading "Deploy seamlessly across your stack" [level=2] [ref=f20e270]
+    - generic [ref=f20e271]:
+      - generic [ref=f20e272]:
+        - heading "Enterprise API" [level=3] [ref=f20e278]
+        - paragraph [ref=f20e279]: Connect your infrastructure directly to our neural clusters with a single API key. Highly scalable, sub-millisecond latency.
+      - generic [ref=f20e280]:
+        - heading "Cloud Native" [level=3] [ref=f20e281]
+        - paragraph [ref=f20e282]: Deploy edge nodes directly inside your AWS, GCP, or Azure environments. Keep your data localized and compliant.
+  - generic [ref=f20e283]:
+    - generic [ref=f20e285]:
+      - generic [ref=f20e286]: Everything
+      - generic [ref=f20e287]: your
+      - generic [ref=f20e288]: autonomous
+      - generic [ref=f20e289]: network
+      - generic [ref=f20e290]: needs,
+      - generic [ref=f20e291]: deployed
+      - generic [ref=f20e292]: into
+      - generic [ref=f20e293]: one
+      - generic [ref=f20e294]: unified
+      - generic [ref=f20e295]: ecosystem.
+    - paragraph [ref=f20e296]: 04 / Architecture
+  - generic [ref=f20e297]:
+    - heading "MODELS" [level=2] [ref=f20e298]
+    - generic [ref=f20e299]:
+      - article [ref=f20e300]:
+        - generic [ref=f20e301]:
+          - paragraph [ref=f20e302]: Deployment
+          - 'heading "Cluster Alpha: Online" [level=3] [ref=f20e303]': Cluster Alpha:Online
+        - generic [ref=f20e304]: US-East99.9% Uptime
+      - article [ref=f20e306]:
+        - generic [ref=f20e307]:
+          - paragraph [ref=f20e308]: Processing
+          - heading "Neural Node Active" [level=3] [ref=f20e309]: Neural NodeActive
+        - generic [ref=f20e310]: EU-Central12ms Ping
+      - article [ref=f20e312]:
+        - generic [ref=f20e313]:
+          - paragraph [ref=f20e314]: Training
+          - heading "Deep Learning Epoch 42" [level=3] [ref=f20e315]: Deep LearningEpoch 42
+        - generic [ref=f20e316]: GlobalContinuous
+      - article [ref=f20e318]:
+        - generic [ref=f20e319]:
+          - paragraph [ref=f20e320]: Security
+          - heading "Zero-Trust Firewall" [level=3] [ref=f20e321]: Zero-TrustFirewall
+        - generic [ref=f20e322]: US-WestProtected
+  - generic [ref=f20e324]:
+    - heading "SCALE" [level=2] [ref=f20e325]
+    - generic [ref=f20e326]:
+      - article [ref=f20e327]:
+        - paragraph [ref=f20e328]: 01 / Ingestion
+        - heading "COLLECTED" [level=3] [ref=f20e329]
+        - paragraph [ref=f20e330]: Raw data is securely ingested from enterprise edge nodes instantly.
+      - article [ref=f20e331]:
+        - paragraph [ref=f20e332]: 02 / Synthesis
+        - heading "PROCESSED" [level=3] [ref=f20e333]
+        - button "View Metrics" [ref=f20e334] [cursor=pointer]
+      - article [ref=f20e335]:
+        - paragraph [ref=f20e336]: 03 / Output
+        - heading "DEPLOYED" [level=3] [ref=f20e337]
+        - paragraph [ref=f20e338]: Actionable insights deployed directly into your operational pipelines.
+  - contentinfo [ref=f20e339]:
+    - generic [ref=f20e340]:
+      - generic [ref=f20e341]:
+        - text: Nexus AI
+        - paragraph [ref=f20e342]: Cinematic AI agent experiences, deployed instantly across the cloud.
+      - generic [ref=f20e343]:
+        - generic [ref=f20e344]:
+          - link "Deploy" [ref=f20e345] [cursor=pointer]:
+            - /url: "#"
+          - link "Clusters" [ref=f20e346] [cursor=pointer]:
+            - /url: "#"
+          - link "Enterprise" [ref=f20e347] [cursor=pointer]:
+            - /url: "#"
+        - generic [ref=f20e348]:
+          - link "Documentation" [ref=f20e349] [cursor=pointer]:
+            - /url: "#"
+          - link "Changelog" [ref=f20e350] [cursor=pointer]:
+            - /url: "#"
+          - link "API" [ref=f20e351] [cursor=pointer]:
+            - /url: "#"
+    - paragraph [ref=f20e353]: © 2026 Nexus AI. All rights reserved.
