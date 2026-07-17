@@ -37,7 +37,7 @@ export const googleCallback = async (req, res) => {
       7 * 24 * 60 * 60
     );
 
-    res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+    res.redirect(`${process.env.FRONTEND_URL}/`);
   } catch (error) {
     console.error('Session storage error:', error);
     res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_failed`);

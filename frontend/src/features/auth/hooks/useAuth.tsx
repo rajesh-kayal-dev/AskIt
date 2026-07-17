@@ -3,6 +3,7 @@ import { authApi } from '../services/api.js';
 import type { User } from '../types/auth.types.js';
 import { AuthContext, type AuthContextValue } from './useAuthContext';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { useAuth } from './useAuthContext';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -11,28 +12,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         let isMounted = true;
-        const getCookie = (name: string): string | null => {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) {
-                return parts.pop()?.split(';').shift() ?? null;
-            }
-            return null;
-        };
-
-        const token = localStorage.getItem('askit_token') || getCookie('jwt_token');
-
-        if (!token) {
-            queueMicrotask(() => {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            });
-
-            return () => {
-                isMounted = false;
-            };
-        }
 
         authApi
             .getProfile()
