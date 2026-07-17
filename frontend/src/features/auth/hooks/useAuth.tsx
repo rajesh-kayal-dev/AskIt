@@ -12,6 +12,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         let isMounted = true;
+        // We must call getProfile to check authentication because jwt_token is httpOnly
+        // and cannot be read via document.cookie on the client side.
 
         authApi
             .getProfile()

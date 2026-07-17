@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+// Forced restart to load new .env variables
 import redis from '../../../shared/redis/redis.js';
 
 export const googleCallback = async (req, res) => {

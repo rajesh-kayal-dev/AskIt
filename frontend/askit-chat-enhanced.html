@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskIT - AI Knowledge Assistant</title>
+    <meta name="description" content="AskIT - Your AI-powered knowledge assistant">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            /* Dark Theme Colors */
+            --bg-primary: #161616;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #212121;
+            --bg-elevated: #282828;
+            --bg-hover: rgba(255, 255, 255, 0.06);
+            --bg-active: rgba(59, 130, 246, 0.12);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.75);
+            --text-tertiary: rgba(255, 255, 255, 0.45);
+            --text-muted: rgba(255, 255, 255, 0.30);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.12);
+            --border-medium: rgba(255, 255, 255, 0.18);
+            --border-focus: rgba(59, 130, 246, 0.6);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+            --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --gradient-button: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e5e5e5;
+            --bg-elevated: #d4d4d4;
+            --bg-hover: rgba(0, 0, 0, 0.04);
+            --bg-active: rgba(59, 130, 246, 0.10);
+            --text-primary: #171717;
+            --text-secondary: rgba(0, 0, 0, 0.70);
+            --text-tertiary: rgba(0, 0, 0, 0.45);
+            --text-muted: rgba(0, 0, 0, 0.30);
+            --border-subtle: rgba(0, 0, 0, 0.08);
+            --border-light: rgba(0, 0, 0, 0.12);
+            --border-medium: rgba(0, 0, 0, 0.18);
+            --border-focus: rgba(59, 130, 246, 0.6);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-medium);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+
+        ::selection {
+            background: rgba(59, 130, 246, 0.35);
+            color: var(--text-primary);
+        }
+
+        /* Animations */
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(24px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-24px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
+                transform: scale(1) rotate(0deg);
+            }
+            50% { 
+                filter: drop-shadow(0 0 35px rgba(139, 92, 246, 0.6));
+                transform: scale(1.05) rotate(3deg);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .message-user {
+            animation: slideInRight 280ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        .message-ai {
+            animation: slideInLeft 280ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 350ms ease-out both;
+        }
+
+        .scale-in {
+            animation: scaleIn 250ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        .logo-pulse {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .typing-dot {
+            animation: bounce 600ms infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 150ms; }
+        .typing-dot:nth-child(3) { animation-delay: 300ms; }
+
+        /* Sidebar Transitions */
+        .sidebar-container {
+            transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
+                        visibility 320ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-container.closed {
+            transform: translateX(-100%);
+            visibility: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            .sidebar-container.closed {
+                transform: translateX(0);
+                visibility: visible;
+            }
+        }
+
+        /* Right Panel Transitions */
+        .right-panel-container {
+            transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
+                        visibility 320ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .right-panel-container.closed {
+            transform: translateX(100%);
+            visibility: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            .right-panel-container.closed {
+                transform: translateX(0);
+                visibility: visible;
+            }
+        }
+
+        /* Overlay */
+        .overlay {
+            transition: opacity 280ms ease, visibility 280ms ease;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Message Actions */
+        .message-actions {
+            opacity: 0;
+            transform: translateY(4px);
+            transition: all 180ms ease;
+        }
+
+        .message-bubble:hover .message-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Button Base Styles */
+        .btn-interact {
+            position: relative;
+            overflow: hidden;
+            transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-interact::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 200ms ease;
+        }
+
+        .btn-interact:hover::after {
+            opacity: 1;
+        }
+
+        .btn-interact:active {
+            transform: scale(0.96);
+        }
+
+        /* Focus States */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid var(--border-focus);
+            outline-offset: 2px;
+        }
+
+        /* Code Block Styling */
+        .code-block {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 16px 0;
+            transition: border-color 200ms ease;
+        }
+
+        .code-block:hover {
+            border-color: var(--border-medium);
+        }
+
+        .code-header {
+            height: 38px;
+            padding: 0 14px;
+            background: var(--bg-hover);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .code-content {
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        /* Inline code */
+        code:not(.code-content) {
+            background: rgba(59, 130, 246, 0.18);
+            color: #60a5fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        /* Input Area Focus */
+        .input-form:focus-within {
+            border-color: var(--border-focus);
+            background: var(--bg-hover);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+        }
+
+        /* Quick Action Pills */
+        .quick-pill {
+            position: relative;
+            transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quick-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+            border-color: var(--blue-500, #3b82f6);
+            color: var(--blue-500, #3b82f6);
+        }
+
+        /* New Chat Button */
+        .new-chat-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .new-chat-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 400ms ease, height 400ms ease;
+        }
+
+        .new-chat-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .new-chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .new-chat-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Send Button */
+        .send-btn:not(:disabled):hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(99, 102, 241, 0.45);
+        }
+
+        .send-btn:not(:disabled):active {
+            transform: scale(0.93);
+        }
+
+        .send-btn:disabled {
+            background: var(--bg-elevated);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Chat Item Active State */
+        .chat-item.active {
+            background: var(--bg-active);
+            border-left: 3px solid #3b82f6;
+        }
+
+        .chat-item {
+            transition: all 180ms ease;
+            border-left: 3px solid transparent;
+        }
+
+        .chat-item:hover {
+            background: var(--bg-hover);
+            padding-left: 20px;
+        }
+
+        /* Close Button Animation */
+        .close-btn {
+            transition: all 200ms ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            transform: rotate(90deg);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: relative;
+            width: 56px;
+            height: 28px;
+            border-radius: 14px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: all 300ms ease;
+        }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--gradient-button);
+            transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] .theme-toggle::after {
+            transform: translateX(28px);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            padding: 6px 12px;
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 200ms ease;
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .tooltip:hover::before {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(
+                90deg,
+                var(--bg-tertiary) 25%,
+                var(--bg-elevated) 50%,
+                var(--bg-tertiary) 75%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen overflow-hidden">
+    
+    <div id="app" class="h-screen w-screen flex overflow-hidden relative" style="background: var(--bg-primary);">
+        
+        <!-- LEFT SIDEBAR -->
+        <aside id="sidebar" class="sidebar-container w-[280px] h-screen bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)] flex flex-col fixed lg:relative z-30" style="background: var(--bg-secondary);">
+            
+            <!-- Sidebar Header with Close Button -->
+            <div class="h-16 flex items-center justify-between px-5 border-b border-[var(--border-subtle)]">
+                <div class="flex items-center gap-3">
+                    <div class="logo-pulse relative">
+                        <svg width="36" height="36" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="60" cy="60" r="55" stroke="url(#logoGrad)" stroke-width="3" fill="var(--bg-secondary)"/>
+                            <path d="M60 35 L75 70 L45 70 Z" fill="url(#logoGrad)"/>
+                            <rect x="52" y="72" width="16" height="13" rx="2" fill="url(#logoGrad)"/>
+                        </svg>
+                    </div>
+                    <span class="font-semibold text-lg" style="color: var(--text-primary);">AskIT</span>
+                </div>
+                
+                <!-- Close Sidebar Button -->
+                <button id="closeSidebarBtn" class="close-btn w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer border-none transition-all" style="background: transparent; color: var(--text-tertiary);" aria-label="Close sidebar" data-tooltip="Close sidebar">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- New Chat Button -->
+            <button id="newChatBtn" class="new-chat-btn mx-4 mt-5 w-[calc(100%-32px)] h-12 rounded-xl text-white font-semibold text-[15px] flex items-center justify-center gap-2 cursor-pointer border-none shadow-md btn-interact" style="background: var(--gradient-button);" aria-label="Create new chat">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+                New Chat
+            </button>
+
+            <!-- Recent Chats Section -->
+            <div class="px-4 mt-5 flex-1 overflow-y-auto">
+                <div class="text-[11px] font-semibold uppercase tracking-wider mb-3 pl-1" style="color: var(--text-muted);">Recent</div>
+                
+                <div class="space-y-1" id="chatList">
+                    <!-- Chat Items will be populated by JS -->
+                </div>
+
+                <!-- Navigation Section -->
+                <div class="h-px bg-[var(--border-subtle)] my-5 mx-4"></div>
+                
+                <nav class="space-y-1 px-3">
+                    <button class="nav-item w-full h-10 px-3 flex items-center gap-3 rounded-lg text-sm cursor-pointer transition-all duration-200 hover:bg-[var(--bg-hover)] hover:translate-x-1" style="color: var(--text-secondary);" aria-label="Search" data-tooltip="Search">
+                        <i data-lucide="search" class="w-[18px] h-[18px]"></i>
+                        Search
+                    </button>
+                    
+                    <button class="nav-item w-full h-10 px-3 flex items-center gap-3 rounded-lg text-sm cursor-pointer transition-all duration-200 hover:bg-[var(--bg-hover)] hover:translate-x-1" style="color: var(--text-secondary);" aria-label="Settings" onclick="openSettingsModal()" data-tooltip="Settings">
+                        <i data-lucide="settings" class="w-[18px] h-[18px]"></i>
+                        Settings
+                    </button>
+                    
+                    <button class="nav-item w-full h-10 px-3 flex items-center gap-3 rounded-lg text-sm cursor-pointer transition-all duration-200 hover:bg-[var(--bg-hover)] hover:translate-x-1" style="color: var(--text-secondary);" aria-label="Help & Support" data-tooltip="Help & Support">
+                        <i data-lucide="help-circle" class="w-[18px] h-[18px]"></i>
+                        Help & Support
+                    </button>
+                </nav>
+            </div>
+
+            <!-- User Profile & Theme (Bottom) -->
+            <div class="p-4 border-t border-[var(--border-subtle)] space-y-3">
+                <!-- Theme Toggle -->
+                <div class="flex items-center justify-between px-2">
+                    <span class="text-xs font-medium" style="color: var(--text-tertiary);">Theme</span>
+                    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" data-tooltip="Toggle light/dark mode"></button>
+                </div>
+
+                <!-- User Profile -->
+                <button id="userProfileBtn" class="w-full flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all duration-200 hover:bg-[var(--bg-hover)] border-none" style="background: transparent;" aria-label="User profile">
+                    <div class="w-9 h-9 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0" style="background: var(--gradient-button);">
+                        RK
+                    </div>
+                    <div class="flex-1 min-w-0 text-left">
+                        <div class="text-sm font-medium truncate" style="color: var(--text-primary);">Rajesh Kumar</div>
+                        <span class="inline-block text-[11px] px-2 py-0.5 rounded-full font-medium mt-0.5" style="background: var(--bg-elevated); color: var(--text-muted);">Free Plan</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 flex-shrink-0" style="color: var(--text-muted);"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay (Mobile) -->
+        <div id="sidebarOverlay" class="overlay hidden fixed inset-0 z-20 lg:hidden" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);" aria-hidden="true"></div>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content flex-1 flex flex-col min-w-0 relative" style="background: var(--bg-primary);">
+            
+            <!-- Chat Header -->
+            <header class="sticky top-0 z-20 w-full h-16 px-4 lg:px-6 flex items-center justify-between border-b border-[var(--border-subtle)]" style="background: var(--bg-primary); backdrop-filter: blur(12px);">
+                <div class="flex items-center gap-3">
+                    <!-- Mobile Menu Toggle -->
+                    <button id="sidebarToggle" class="lg:hidden w-10 h-10 rounded-lg flex items-center justify-center cursor-pointer border-none transition-all duration-200 hover:bg-[var(--bg-hover)]" style="background: transparent;" aria-label="Open sidebar">
+                        <i data-lucide="menu" class="w-6 h-6" style="stroke-width: 2; color: var(--text-secondary);"></i>
+                    </button>
+                    
+                    <div class="flex items-center gap-3">
+                        <h2 id="chatTitle" class="text-lg font-semibold" style="color: var(--text-primary);">Redis Session Setup</h2>
+                        <span id="messageCount" class="hidden sm:inline-block text-xs px-2 py-0.5 rounded-full font-medium" style="background: var(--bg-elevated); color: var(--text-muted);">22 messages</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <!-- Model Selector -->
+                    <button id="modelSelector" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium cursor-pointer transition-all duration-200 hover:bg-[var(--bg-hover)] hover:border-[var(--border-medium)]" style="border: 1px solid var(--border-light); background: transparent; color: var(--text-secondary);" aria-label="Select model">
+                        <span id="currentModel">GPT-4o</span>
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                    </button>
+                    
+                    <!-- Share Button -->
+                    <button class="btn-interact w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer border-none transition-all hover:bg-[var(--bg-hover)]" style="background: transparent;" aria-label="Share conversation" data-tooltip="Share">
+                        <i data-lucide="share-2" class="w-[18px] h-[18px]" style="color: var(--text-tertiary);"></i>
+                    </button>
+                    
+                    <!-- More Options -->
+                    <button class="btn-interact w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer border-none transition-all hover:bg-[var(--bg-hover)]" style="background: transparent;" aria-label="More options" data-tooltip="More options">
+                        <i data-lucide="more-vertical" class="w-[18px] h-[18px]" style="color: var(--text-tertiary);"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Messages Container -->
+            <div id="messagesContainer" class="messages-container flex-1 overflow-y-auto scroll-smooth py-6 px-5 lg:px-12" role="log" aria-live="polite" aria-label="Chat messages" style="background: var(--bg-primary);">
+                
+                <!-- Messages will be dynamically inserted here -->
+                
+            </div>
+
+            <!-- Input Area -->
+            <div class="sticky bottom-0 z-10 w-full py-4 px-4 lg:px-6" style="background: linear-gradient(to top, var(--bg-primary) 0%, var(--bg-primary) 80%, transparent 100%);">
+                <div class="max-w-[900px] mx-auto">
+                    <form id="chatForm" class="input-form w-full p-4 rounded-2xl border flex items-end gap-3 transition-all duration-200" style="border: 1px solid var(--border-light); background: var(--bg-tertiary);">
+                        
+                        <!-- Attach Button -->
+                        <button type="button" class="btn-interact w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer border-none flex-shrink-0 transition-all hover:bg-[var(--bg-hover)]" style="background: transparent;" aria-label="Attach file" data-tooltip="Attach files">
+                            <i data-lucide="paperclip" class="w-5 h-5" style="stroke-width: 2; color: var(--text-tertiary);"></i>
+                        </button>
+
+                        <!-- Textarea -->
+                        <textarea 
+                            id="messageInput"
+                            placeholder="Ask anything..." 
+                            class="flex-1 resize-none min-h-[24px] max-h-[160px] py-2 px-0 border-0 outline-none text-base leading-6 overflow-y-auto"
+                            style="background: transparent; color: var(--text-primary); font-family: inherit;"
+                            rows="1"
+                            aria-label="Type your message"
+                        ></textarea>
+
+                        <!-- Mic Button -->
+                        <button type="button" id="micBtn" class="btn-interact w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer border-none flex-shrink-0 transition-all hover:bg-[var(--bg-hover)]" style="background: transparent;" aria-label="Voice input" data-tooltip="Voice input">
+                            <i data-lucide="mic" class="w-5 h-5" style="stroke-width: 2; color: var(--text-tertiary);"></i>
+                        </button>
+
+                        <!-- Send Button -->
+                        <button type="submit" id="sendBtn" class="send-btn w-10 h-10 rounded-xl flex items-center justify-center text-white border-none cursor-pointer transition-all duration-200 flex-shrink-0 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none" style="background: var(--gradient-button); box-shadow: var(--shadow-md);" disabled aria-label="Send message">
+                            <i data-lucide="arrow-up" class="w-5 h-5" style="stroke-width: 2;"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- RIGHT PANEL -->
+        <aside id="rightPanel" class="right-panel-container closed w-[320px] h-screen border-l border-[var(--border-subtle)] overflow-y-auto fixed right-0 top-0 lg:relative z-40 hidden lg:block" style="background: var(--bg-secondary);">
+            
+            <!-- Panel Header with Close Button -->
+            <div class="sticky top-0 z-10 py-5 px-5 pb-4 border-b border-[var(--border-subtle)] flex items-start justify-between" style="background: var(--bg-secondary);">
+                <div>
+                    <h3 class="text-base font-semibold" style="color: var(--text-primary);">Conversation Info</h3>
+                </div>
+                <button id="closePanelBtn" class="close-btn w-7 h-7 rounded-md flex items-center justify-center cursor-pointer border-none transition-all" style="background: transparent; color: var(--text-tertiary);" aria-label="Close panel" data-tooltip="Close panel">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Panel Content -->
+            <div class="py-5 px-5 space-y-6">
+                <!-- Metadata Section -->
+                <div class="space-y-4">
+                    <div>
+                        <div class="text-[11px] font-semibold uppercase tracking-wide mb-1.5" style="color: var(--text-muted);">Created</div>
+                        <div class="text-sm" style="color: var(--text-secondary);">2 hours ago</div>
+                    </div>
+                    
+                    <div>
+                        <div class="text-[11px] font-semibold uppercase tracking-wide mb-1.5" style="color: var(--text-muted);">Messages</div>
+                        <div class="text-sm" style="color: var(--text-secondary);">22</div>
+                    </div>
+                    
+                    <div>
+                        <div class="text-[11px] font-semibold uppercase tracking-wide mb-1.5" style="color: var(--text-muted);">Model</div>
+                        <div class="text-sm" style="color: var(--text-secondary);">GPT-4o</div>
+                    </div>
+
+                    <div>
+                        <div class="text-[11px] font-semibold uppercase tracking-wide mb-1.5" style="color: var(--text-muted);">Status</div>
+                        <div class="text-sm flex items-center gap-2" style="color: var(--text-secondary);">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            Active
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topics Section -->
+                <div class="pt-4 border-t border-[var(--border-subtle)]">
+                    <div class="text-[11px] font-semibold uppercase tracking-wide mb-3" style="color: var(--text-muted);">Topics Discussed</div>
+                    <div class="flex flex-wrap gap-2" id="topicsList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Shared Files Section -->
+                <div class="pt-4 border-t border-[var(--border-subtle)]">
+                    <div class="text-[11px] font-semibold uppercase tracking-wide mb-3" style="color: var(--text-muted);">Shared Files</div>
+                    <div class="space-y-2" id="filesList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons (Sticky Bottom) -->
+            <div class="sticky bottom-0 py-5 px-5 border-t border-[var(--border-subtle)] space-y-2" style="background: linear-gradient(to top, var(--bg-secondary) 0%, var(--bg-secondary) 90%, transparent 100%);">
+                <button id="exportChatBtn" class="btn-interact w-full py-2.5 px-4 rounded-lg border text-sm font-medium cursor-pointer transition-all hover:bg-[var(--bg-hover)] hover:border-[var(--border-medium)]" style="border: 1px solid var(--border-light); background: transparent; color: var(--text-secondary);">
+                    Export Chat
+                </button>
+                <button id="deleteChatBtn" class="btn-interact w-full py-2.5 px-4 rounded-lg border text-sm font-medium cursor-pointer transition-all hover:bg-red-500/10" style="border: 1px solid rgba(239,68,68,0.25); background: transparent; color: #ef4444;">
+                    Delete Chat
+                </button>
+            </div>
+        </aside>
+
+        <!-- Panel Toggle Button (Desktop) -->
+        <button id="panelToggleDesktop" class="hidden lg:flex fixed right-0 top-1/2 -translate-y-1/2 w-6 h-12 rounded-l-lg cursor-pointer z-30 items-center justify-center shadow-lg transition-all duration-200 hover:pr-1 border-none" style="background: var(--bg-elevated); border: 1px solid var(--border-light) 1px solid transparent 0px;" aria-label="Toggle context panel">
+            <i data-lucide="panel-right-open" class="w-4 h-4 panel-icon transition-transform duration-200" style="color: var(--text-tertiary);"></i>
+        </button>
+
+        <!-- Panel Toggle Button (Mobile) -->
+        <button id="panelToggleMobile" class="lg:hidden fixed right-4 bottom-24 w-12 h-12 rounded-full cursor-pointer z-30 shadow-lg flex items-center justify-center transition-all hover:scale-110 border-none" style="background: var(--gradient-button);" aria-label="Open context panel" data-tooltip="Context info">
+            <i data-lucide="info" class="w-5 h-5 text-white"></i>
+        </button>
+
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);">
+        <div class="modal-content w-full max-w-md rounded-2xl p-6 scale-in" style="background: var(--bg-secondary); border: 1px solid var(--border-light); box-shadow: var(--shadow-lg);">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold" style="color: var(--text-primary);">Settings</h3>
+                <button id="closeSettingsBtn" class="close-btn w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer border-none transition-all" style="background: transparent; color: var(--text-tertiary);">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-5">
+                <!-- Appearance -->
+                <div class="p-4 rounded-xl" style="background: var(--bg-tertiary);">
+                    <div class="font-medium mb-3" style="color: var(--text-primary);">Appearance</div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm" style="color: var(--text-secondary);">Dark Mode</span>
+                        <button id="modalThemeToggle" class="theme-toggle" aria-label="Toggle dark mode"></button>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="p-4 rounded-xl" style="background: var(--bg-tertiary);">
+                    <div class="font-medium mb-3" style="color: var(--text-primary);">Notifications</div>
+                    <label class="flex items-center justify-between cursor-pointer">
+                        <span class="text-sm" style="color: var(--text-secondary);">Sound Effects</span>
+                        <input type="checkbox" checked class="w-5 h-5 rounded" style="accent: #3b82f6;">
+                    </label>
+                </div>
+
+                <!-- About -->
+                <div class="p-4 rounded-xl text-center" style="background: var(--bg-tertiary);">
+                    <div class="font-semibold mb-1" style="color: var(--text-primary);">AskIT v1.0.0</div>
+                    <div class="text-xs" style="color: var(--text-muted);">AI-Powered Knowledge Assistant</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl shadow-lg transition-all duration-300 opacity-0 translate-y-4 pointer-events-none flex items-center gap-3" style="background: var(--bg-elevated); border: 1px solid var(--border-light);">
+        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-500"></i>
+        <span id="toastMessage" class="text-sm font-medium" style="color: var(--text-primary);">Action completed</span>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // ==================== STATE MANAGEMENT ====================
+        const state = {
+            isSidebarOpen: window.innerWidth >= 1024,
+            isPanelOpen: window.innerWidth >= 1024,
+            theme: localStorage.getItem('askit-theme') || 'dark',
+            messages: [],
+            currentChatId: 'chat-1',
+            chats: [
+                { id: 'chat-1', title: 'Redis Session Setup', time: '2h ago', active: true },
+                { id: 'chat-2', title: 'Node.js Auth Flow', time: '5h ago', active: false },
+                { id: 'chat-3', title: 'Docker Compose Config', time: 'Yesterday', active: false },
+                { id: 'chat-4', title: 'React State Patterns', time: '2 days ago', active: false },
+                { id: 'chat-5', title: 'MongoDB Schema Design', time: '3 days ago', active: false },
+                { id: 'chat-6', title: 'API Error Handling', time: '1 week ago', active: false }
+            ],
+            topics: ['Redis', 'Session Management', 'Node.js', 'Authentication', 'Docker'],
+            files: [
+                { name: 'redis.config.js', size: '1.2 KB' },
+                { name: 'schema.sql', size: '2.4 KB' }
+            ]
+        };
+
+        // Apply saved theme on load
+        document.documentElement.setAttribute('data-theme', state.theme);
+
+        // ==================== DOM ELEMENTS ====================
+        const elements = {
+            sidebar: document.getElementById('sidebar'),
+            sidebarOverlay: document.getElementById('sidebarOverlay'),
+            sidebarToggle: document.getElementById('sidebarToggle'),
+            closeSidebarBtn: document.getElementById('closeSidebarBtn'),
+            rightPanel: document.getElementById('rightPanel'),
+            panelToggleDesktop: document.getElementById('panelToggleDesktop'),
+            panelToggleMobile: document.getElementById('panelToggleMobile'),
+            closePanelBtn: document.getElementById('closePanelBtn'),
+            messagesContainer: document.getElementById('messagesContainer'),
+            chatForm: document.getElementById('chatForm'),
+            messageInput: document.getElementById('messageInput'),
+            sendBtn: document.getElementById('sendBtn'),
+            newChatBtn: document.getElementById('newChatBtn'),
+            themeToggle: document.getElementById('themeToggle'),
+            modalThemeToggle: document.getElementById('modalThemeToggle'),
+            settingsModal: document.getElementById('settingsModal'),
+            closeSettingsBtn: document.getElementById('closeSettingsBtn'),
+            toast: document.getElementById('toast'),
+            toastMessage: document.getElementById('toastMessage'),
+            modelSelector: document.getElementById('modelSelector'),
+            chatList: document.getElementById('chatList'),
+            topicsList: document.getElementById('topicsList'),
+            filesList: document.getElementById('filesList'),
+            exportChatBtn: document.getElementById('exportChatBtn'),
+            deleteChatBtn: document.getElementById('deleteChatBtn')
+        };
+
+        // ==================== INITIALIZATION ====================
+        function init() {
+            renderChatList();
+            renderTopics();
+            renderFiles();
+            loadDemoMessages();
+            updateUIState();
+            setupEventListeners();
+            
+            // Initial scroll to bottom after a short delay
+            setTimeout(() => scrollToBottom(), 100);
+        }
+
+        // ==================== RENDER FUNCTIONS ====================
+        function renderChatList() {
+            elements.chatList.innerHTML = state.chats.map(chat => `
+                <button class="chat-item w-full h-14 p-3 rounded-lg cursor-pointer text-left ${chat.active ? 'active' : ''}" 
+                        data-chat-id="${chat.id}"
+                        onclick="selectChat('${chat.id}')"
+                        aria-label="${chat.title} chat">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="message-square" class="w-[18px] h-[18px] flex-shrink-0" style="color: ${chat.active ? '#3b82f6' : 'var(--text-tertiary)'};"></i>
+                        <div class="flex-1 min-w-0">
+                            <div class="text-sm font-medium truncate" style="color: var(--text-primary);">${chat.title}</div>
+                            <div class="text-xs mt-0.5 truncate" style="color: var(--text-muted);">${chat.time}</div>
+                        </div>
+                    </div>
+                </button>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderTopics() {
+            elements.topicsList.innerHTML = state.topics.map(topic => `
+                <span class="inline-flex px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all hover:scale-105" 
+                      style="background: var(--bg-hover); color: var(--text-secondary);"
+                      onclick="filterByTopic('${topic}')">${topic}</span>
+            `).join('');
+        }
+
+        function renderFiles() {
+            elements.filesList.innerHTML = state.files.map(file => `
+                <div class="flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-all hover:bg-[var(--bg-hover)]" style="color: var(--text-secondary);">
+                    <i data-lucide="file-code" class="w-4 h-4 flex-shrink-0" style="color: var(--text-tertiary);"></i>
+                    <span class="text-sm flex-1 truncate">${file.name}</span>
+                    <span class="text-xs" style="color: var(--text-muted);">${file.size}</span>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function loadDemoMessages() {
+            const demoMessages = [
+                {
+                    type: 'user',
+                    content: 'Hey! Can you help me set up Redis session management in my Node.js project?',
+                    time: '10:34 AM'
+                },
+                {
+                    type: 'ai',
+                    content: `<p class="mb-3">Absolutely! I'd be happy to help you implement Redis session management. Here's what we'll need to do:</p>
+                             <p class="mb-2"><strong>Step 1: Install Dependencies</strong></p>
+                             <p class="mb-3">First, install ioredis and express-session:</p>
+                             <div class="code-block">
+                                 <div class="code-header">
+                                     <span class="text-xs font-mono lowercase" style="color: var(--text-muted);">bash</span>
+                                     <button class="copy-btn text-[11px] px-2 py-1 rounded cursor-pointer transition-all hover:text-emerald-400" style="background: transparent; color: var(--text-tertiary); border: none;">Copy</button>
+                                 </div>
+                                 <pre class="code-content">npm install ioredis express-session connect-redis</pre>
+                             </div>
+                             <p class="mt-3"><strong>Step 2: Configure Redis Client</strong></p>
+                             <p>Create a redis config file with connection settings using environment variables.</p>`,
+                    time: '10:34 AM'
+                },
+                {
+                    type: 'user',
+                    content: 'Great! How do I handle session expiration?',
+                    time: '10:35 AM'
+                },
+                {
+                    type: 'ai',
+                    content: `<p class="mb-3">Excellent question! For session expiration, Redis provides built-in TTL (Time To Live) support:</p>
+                             <div class="code-block">
+                                 <div class="code-header">
+                                     <span class="text-xs font-mono lowercase" style="color: var(--text-muted);">javascript</span>
+                                     <button class="copy-btn text-[11px] px-2 py-1 rounded cursor-pointer transition-all hover:text-emerald-400" style="background: transparent; color: var(--text-tertiary); border: none;">Copy</button>
+                                 </div>
+                                 <pre class="code-content"><span style="color: #a78bfa;">// Set session with 7-day expiry</span>
+<span style="color: #60a5fa;">await</span> redis.<span style="color: #fbbf24;">set</span>(
+  <span style="color: #34d399;">\`session:\${sessionId}\`</span>,
+  JSON.<span style="color: #fbbf24;">stringify</span>(sessionData),
+  <span style="color: #34d399;">'EX'</span>, <span style="color: var(--text-muted);">// Expire option</span>
+  <span style="color: #fb923c;">7</span> * <span style="color: #fb923c;">24</span> * <span style="color: #fb923c;">60</span> * <span style="color: #fb923c;">60</span> <span style="color: var(--text-muted);">// 7 days in seconds</span>
+);</pre>
+                             </div>
+                             <p class="mt-3">The <code>'EX'</code> parameter sets expiration in seconds. After 7 days, Redis automatically removes the key!</p>`,
+                    time: '10:35 AM'
+                },
+                {
+                    type: 'user',
+                    content: 'Perfect! Now how do I clear sessions on logout?',
+                    time: '10:36 AM'
+                },
+                {
+                    type: 'ai',
+                    content: `<p class="mb-3">For logout, you'll want to delete both the Redis session and clear cookies:</p>
+                             <div class="code-block">
+                                 <div class="code-header">
+                                     <span class="text-xs font-mono lowercase" style="color: var(--text-muted);">javascript</span>
+                                     <button class="copy-btn text-[11px] px-2 py-1 rounded cursor-pointer transition-all hover:text-emerald-400" style="background: transparent; color: var(--text-tertiary); border: none;">Copy</button>
+                                 </div>
+                                 <pre class="code-content"><span style="color: #a78bfa;">// Delete from Redis</span>
+<span style="color: #60a5fa;">await</span> redis.<span style="color: #fbbf24;">del</span>(<span style="color: #34d399;">\`session:\${sessionId}\`</span>);
+
+<span style="color: #a78bfa;">// Clear cookies</span>
+res.<span style="color: #fbbf24;">clearCookie</span>(<span style="color: #34d399;">'session_id'</span>);
+res.<span style="color: #fbbf24;">clearCookie</span>(<span style="color: #34d399;">'jwt_token'</span>);</pre>
+                             </div>
+                             <p class="mt-3">This ensures complete session cleanup. The user will need to re-authenticate on next visit.</p>`,
+                    time: '10:36 AM'
+                }
+            ];
+
+            demoMessages.forEach((msg, index) => {
+                appendMessage(msg.type, msg.content, msg.time, index * 100);
+            });
+        }
+
+        function appendMessage(type, content, time, delay = 0) {
+            setTimeout(() => {
+                const div = document.createElement('div');
+                div.className = type === 'user' ? 'message-user max-w-[70%] ml-auto mb-3' : 'message-ai max-w-[75%] mr-auto mb-3';
+                
+                if (type === 'user') {
+                    div.innerHTML = `
+                        <div class="message-bubble px-5 py-4 rounded-2xl rounded-br-md text-[15px] leading-relaxed whitespace-pre-wrap break-words shadow-md" style="background: var(--gradient-button); color: white;">
+                            ${escapeHtml(content)}
+                        </div>
+                        <div class="mt-2 text-right text-xs" style="color: var(--text-muted);">${time}</div>
+                    `;
+                } else {
+                    div.innerHTML = `
+                        <div class="message-bubble px-5 py-4 rounded-2xl rounded-bl-md text-[15px] leading-relaxed border relative" style="background: var(--bg-tertiary); border-color: var(--border-light); color: var(--text-primary);">
+                            ${content}
+                        </div>
+                        <div class="message-actions mt-2 flex gap-1.5 justify-end">
+                            <button class="action-btn w-7 h-7 rounded-md flex items-center justify-center cursor-pointer border-none transition-all hover:bg-[var(--bg-hover)]" style="background: transparent;" aria-label="Copy" data-tooltip="Copy" onclick="copyMessage(this)">
+                                <i data-lucide="copy" class="w-4 h-4" style="color: var(--text-tertiary);"></i>
+                            </button>
+                            <button class="action-btn w-7 h-7 rounded-md flex items-center justify-center cursor-pointer border-none transition-all hover:bg-[var(--bg-hover)]" style="background: transparent;" aria-label="Regenerate" data-tooltip="Regenerate">
+                                <i data-lucide="refresh-cw" class="w-4 h-4" style="color: var(--text-tertiary);"></i>
+                            </button>
+                            <button class="action-btn w-7 h-7 rounded-md flex items-center justify-center cursor-pointer border-none transition-all hover:bg-[var(--bg-hover)]" style="background: transparent;" aria-label="Like" data-tooltip="Good response">
+                                <i data-lucide="thumbs-up" class="w-4 h-4" style="color: var(--text-tertiary);"></i>
+                            </button>
+                            <button class="action-btn w-7 h-7 rounded-md flex items-center justify-center cursor-pointer border-none transition-all hover:bg-[var(--bg-hover)]" style="background: transparent;" aria-label="Dislike" data-tooltip="Bad response">
+                                <i data-lucide="thumbs-down" class="w-4 h-4" style="color: var(--text-tertiary);"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+                
+                elements.messagesContainer.appendChild(div);
+                lucide.createIcons();
+                scrollToBottom();
+            }, delay);
+        }
+
+        // ==================== SIDEBAR FUNCTIONS ====================
+        function openSidebar() {
+            state.isSidebarOpen = true;
+            elements.sidebar.classList.remove('closed');
+            if (window.innerWidth < 1024) {
+                elements.sidebarOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+            updateUIState();
+        }
+
+        function closeSidebar() {
+            state.isSidebarOpen = false;
+            elements.sidebar.classList.add('closed');
+            if (window.innerWidth < 1024) {
+                elements.sidebarOverlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+            updateUIState();
+        }
+
+        function toggleSidebar() {
+            state.isSidebarOpen ? closeSidebar() : openSidebar();
+        }
+
+        // ==================== RIGHT PANEL FUNCTIONS ====================
+        function openPanel() {
+            state.isPanelOpen = true;
+            elements.rightPanel.classList.remove('closed');
+            elements.panelToggleDesktop.querySelector('.panel-icon').style.transform = 'rotate(180deg)';
+            updateUIState();
+        }
+
+        function closePanel() {
+            state.isPanelOpen = false;
+            elements.rightPanel.classList.add('closed');
+            elements.panelToggleDesktop.querySelector('.panel-icon').style.transform = 'rotate(0deg)';
+            updateUIState();
+        }
+
+        function togglePanel() {
+            state.isPanelOpen ? closePanel() : openPanel();
+        }
+
+        // ==================== THEME FUNCTIONS ====================
+        function toggleTheme() {
+            state.theme = state.theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', state.theme);
+            localStorage.setItem('askit-theme', state.theme);
+            showToast(`Switched to ${state.theme.charAt(0).toUpperCase() + state.theme.slice(1)} mode`);
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        function scrollToBottom() {
+            requestAnimationFrame(() => {
+                elements.messagesContainer.scrollTo({
+                    top: elements.messagesContainer.scrollHeight,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        function getCurrentTime() {
+            return new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showToast(message, duration = 2500) {
+            elements.toastMessage.textContent = message;
+            elements.toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+            elements.toast.classList.add('opacity-100', 'translate-y-0');
+            
+            setTimeout(() => {
+                elements.toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                elements.toast.classList.remove('opacity-100', 'translate-y-0');
+            }, duration);
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.id = 'typingIndicator';
+            indicator.className = 'message-ai max-w-[75%] mr-auto mb-3 fade-in-up';
+            indicator.innerHTML = `
+                <div class="px-5 py-4 rounded-2xl rounded-bl-md inline-flex items-center gap-2" style="background: var(--bg-tertiary); border: 1px solid var(--border-light);">
+                    <div class="typing-dot w-2 h-2 rounded-full" style="background: var(--text-tertiary);"></div>
+                    <div class="typing-dot w-2 h-2 rounded-full" style="background: var(--text-tertiary);"></div>
+                    <div class="typing-dot w-2 h-2 rounded-full" style="background: var(--text-tertiary);"></div>
+                </div>
+            `;
+            elements.messagesContainer.appendChild(indicator);
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block').querySelector('.code-content');
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                const original = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.color = '#10b981';
+                setTimeout(() => {
+                    button.textContent = original;
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+
+        function copyMessage(button) {
+            const bubble = button.closest('.message-bubble');
+            navigator.clipboard.writeText(bubble.textContent).then(() => {
+                showToast('Message copied to clipboard');
+            });
+        }
+
+        function selectChat(chatId) {
+            state.chats.forEach(c => c.active = c.id === chatId);
+            const chat = state.chats.find(c => c.id === chatId);
+            document.getElementById('chatTitle').textContent = chat.title;
+            renderChatList();
+            showToast(`Opened: ${chat.title}`);
+            
+            if (window.innerWidth < 1024) closeSidebar();
+        }
+
+        function filterByTopic(topic) {
+            showToast(`Filtering by: ${topic}`);
+        }
+
+        function openSettingsModal() {
+            elements.settingsModal.classList.remove('hidden');
+            elements.settingsModal.classList.add('flex');
+            if (window.innerWidth < 1024) closeSidebar();
+        }
+
+        function closeSettingsModal() {
+            elements.settingsModal.classList.add('hidden');
+            elements.settingsModal.classList.remove('flex');
+        }
+
+        function updateUIState() {
+            // Update panel toggle icon rotation
+            if (state.isPanelOpen) {
+                elements.panelToggleDesktop.querySelector('.panel-icon').style.transform = 'rotate(180deg)';
+            } else {
+                elements.panelToggleDesktop.querySelector('.panel-icon').style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 160) + 'px';
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        function setupEventListeners() {
+            // Sidebar controls
+            elements.sidebarToggle.addEventListener('click', openSidebar);
+            elements.closeSidebarBtn.addEventListener('click', closeSidebar);
+            elements.sidebarOverlay.addEventListener('click', closeSidebar);
+
+            // Panel controls
+            elements.panelToggleDesktop.addEventListener('click', togglePanel);
+            elements.panelToggleMobile.addEventListener('click', () => {
+                if (elements.rightPanel.classList.contains('closed')) {
+                    elements.rightPanel.classList.remove('closed');
+                    elements.rightPanel.classList.add('block');
+                    elements.rightPanel.style.position = 'fixed';
+                } else {
+                    elements.rightPanel.classList.add('closed');
+                    elements.rightPanel.classList.remove('block');
+                }
+            });
+            elements.closePanelBtn.addEventListener('click', closePanel);
+
+            // Theme toggles
+            elements.themeToggle.addEventListener('click', toggleTheme);
+            elements.modalThemeToggle.addEventListener('click', toggleTheme);
+
+            // New chat button
+            elements.newChatBtn.addEventListener('click', () => {
+                showToast('Creating new chat...');
+                elements.messagesContainer.innerHTML = '';
+                document.getElementById('chatTitle').textContent = 'New Chat';
+                setTimeout(() => {
+                    elements.messageInput.focus();
+                    if (window.innerWidth < 1024) closeSidebar();
+                }, 300);
+            });
+
+            // Textarea auto-resize
+            elements.messageInput.addEventListener('input', function() {
+                autoResizeTextarea(this);
+                this.value.trim().length > 0 
+                    ? elements.sendBtn.disabled = false 
+                    : elements.sendBtn.disabled = true;
+            });
+
+            // Form submission
+            elements.chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const message = elements.messageInput.value.trim();
+                if (!message) return;
+
+                appendMessage('user', message, getCurrentTime());
+                elements.messageInput.value = '';
+                autoResizeTextarea(elements.messageInput);
+                elements.sendBtn.disabled = true;
+
+                showTypingIndicator();
+
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    appendMessage('ai', `
+                        <p class="mb-3">That's an excellent question! Based on our discussion about Redis and Node.js architecture, here's my recommendation:</p>
+                        <p class="mb-3">I'd suggest implementing a middleware pattern that handles session validation automatically. This ensures consistency across all your routes.</p>
+                        <p>Would you like me to elaborate on any specific aspect? I can provide more details on error handling strategies, security best practices, or performance optimization techniques.</p>
+                    `, getCurrentTime());
+                }, 1800);
+            });
+
+            // Copy code buttons (event delegation)
+            elements.messagesContainer.addEventListener('click', function(e) {
+                if (e.target.closest('.copy-btn')) {
+                    copyCode(e.target.closest('.copy-btn'));
+                }
+            });
+
+            // Action buttons (event delegation)
+            elements.messagesContainer.addEventListener('click', function(e) {
+                const actionBtn = e.target.closest('.action-btn');
+                if (actionBtn) {
+                    const label = actionBtn.getAttribute('aria-label');
+                    if (label === 'Copy') copyMessage(actionBtn);
+                    else showToast(`${label} clicked`);
+                }
+            });
+
+            // Export/Delete buttons
+            elements.exportChatBtn.addEventListener('click', () => showToast('Exporting chat...'));
+            elements.deleteChatBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete this chat?')) {
+                    showToast('Chat deleted successfully');
+                }
+            });
+
+            // Settings modal
+            elements.closeSettingsBtn.addEventListener('click', closeSettingsModal);
+            elements.settingsModal.addEventListener('click', function(e) {
+                if (e.target === this) closeSettingsModal();
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // '/' to focus input
+                if (e.key === '/' && document.activeElement !== elements.messageInput && 
+                    !e.ctrlKey && !e.metaKey && !e.altKey) {
+                    e.preventDefault();
+                    elements.messageInput.focus();
+                }
+                
+                // Escape key
+                if (e.key === 'Escape') {
+                    if (!elements.settingsModal.classList.contains('hidden')) {
+                        closeSettingsModal();
+                    } else if (state.isSidebarOpen && window.innerWidth < 1024) {
+                        closeSidebar();
+                    } else if (state.isPanelOpen && window.innerWidth < 1024) {
+                        closePanel();
+                    } else if (document.activeElement === elements.messageInput) {
+                        elements.messageInput.blur();
+                    }
+                }
+            });
+
+            // Responsive handling
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    if (window.innerWidth >= 1024) {
+                        elements.sidebar.classList.remove('closed');
+                        elements.sidebarOverlay.classList.add('hidden');
+                        document.body.style.overflow = '';
+                        elements.rightPanel.classList.remove('closed');
+                        elements.rightPanel.classList.add('block');
+                        elements.rightPanel.style.position = 'relative';
+                        state.isSidebarOpen = true;
+                        state.isPanelOpen = true;
+                    } else {
+                        elements.sidebar.classList.add('closed');
+                        elements.rightPanel.classList.add('closed');
+                        elements.rightPanel.classList.remove('block');
+                        state.isSidebarOpen = false;
+                        state.isPanelOpen = false;
+                    }
+                    updateUIState();
+                }, 150);
+            });
+        }
+
+        // Initialize app when DOM is ready
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Expose functions to global scope for inline handlers
+        window.selectChat = selectChat;
+        window.filterByTopic = filterByTopic;
+        window.openSettingsModal = openSettingsModal;
+        window.copyMessage = copyMessage;
+    </script>
+</body>
+</html>

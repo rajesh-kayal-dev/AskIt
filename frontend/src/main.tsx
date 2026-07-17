@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { AuthProvider } from './features/auth/hooks/useAuth';
 import './assets/styles/global.css';
+import './index.css';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 
