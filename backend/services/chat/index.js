@@ -9,15 +9,14 @@ const app = express();
 const PORT = process.env.PORT || 8002;
 
 app.use(express.json());
-app.use("/", router)
-
-
-connectDB();
-
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'chat-service', port: PORT });
 });
+
+app.use("/", router)
+
+connectDB();
 
 app.listen(PORT, () => {
   console.log(`Chat service running on port ${PORT}`);

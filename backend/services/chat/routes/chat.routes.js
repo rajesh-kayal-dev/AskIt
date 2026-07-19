@@ -1,23 +1,31 @@
 import express from "express";
 import {
-    createConverstation,
     getConversations,
+    getConversationWithMessages,
     updateConverstation,
     deleteConverstation,
-    saveMessage,
     getMessages,
+    completeFirstExchange,
+    appendToConversation,
+    updateMessage,
 } from "../controllers/chat.controller.js";
-
 
 const router = express.Router();
 
-router.post("/", createConverstation);
+// ─── Internal routes (service-to-service, called by Agent Service) ─────────
+// MUST be defined before /:uuid to avoid route conflicts
+router.post("/internal/complete", completeFirstExchange);
+router.post("/internal/append", appendToConversation);
+
+// ─── Conversation CRUD ─────────────────────────────────────────────────────
 router.get("/", getConversations);
-router.put("/:id", updateConverstation);
-router.delete("/:id", deleteConverstation);
-router.post("/message", saveMessage);
+router.get("/:uuid", getConversationWithMessages);  // Unified hydration endpoint
+router.put("/:uuid", updateConverstation);
+router.delete("/:uuid", deleteConverstation);
+
+// ─── Message Operations (backward compat) ─────────────────────────────────
 router.get("/message/:id", getMessages);
-
-
+router.put("/message/:id", updateMessage);
 
 export default router;
+

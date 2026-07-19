@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import { ChatPage } from './pages/ChatPage';
@@ -80,6 +80,14 @@ const PageTransition: React.FC<{ children: React.ReactNode }> = ({ children }) =
 
   useEffect(() => {
     if (location.pathname === prevPath.current) return;
+
+    // Skip transition spinner if navigating between / and /c/:uuid (same ChatPage view)
+    const isChatPath = (p: string) => p === '/' || p.startsWith('/c/');
+    if (isChatPath(location.pathname) && isChatPath(prevPath.current)) {
+      prevPath.current = location.pathname;
+      return;
+    }
+
     prevPath.current = location.pathname;
 
     // Clear any in-progress timer
@@ -130,6 +138,24 @@ const SmartHome: React.FC = () => {
   return isAuthenticated ? <ChatPage /> : <LandingPage />;
 };
 
+/* ─── ProtectedChatPage ───────────────────────────────────────────── */
+const ProtectedChatPage: React.FC = () => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#0a0a0c' }}>
+        <svg className="askit-spinner-svg" viewBox="0 0 50 50">
+          <circle cx="25" cy="25" r="20" />
+        </svg>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  return <ChatPage />;
+};
+
 /* ─── App ────────────────────────────────────────────────────────── */
 const App: React.FC = () => {
   return (
@@ -139,10 +165,13 @@ const App: React.FC = () => {
 
       <PageTransition>
         <Routes>
-          <Route path="/"         element={<SmartHome />} />
-          <Route path="/login"    element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="*"         element={<Navigate to="/login" replace />} />
+          <Route path="/"              element={<SmartHome />} />
+          <Route path="/c/:uuid"       element={<ProtectedChatPage />} />
+          <Route path="/chat"          element={<Navigate to="/" replace />} />
+          <Route path="/chat/:uuid"    element={<Navigate to="/c/:uuid" replace />} />
+          <Route path="/login"         element={<LoginPage />} />
+          <Route path="/register"      element={<RegisterPage />} />
+          <Route path="*"              element={<Navigate to="/login" replace />} />
         </Routes>
       </PageTransition>
     </>

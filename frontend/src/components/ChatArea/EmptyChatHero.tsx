@@ -1,14 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Globe, Wrench, Atom, Plus, ArrowUp, Mic, AudioLines } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { addMessage, setIsGenerating } from '../../redux/chatSlice';
-import { chatService } from '../../services/api';
+import {
+  addMessage,
+  setIsGenerating,
+  setCurrentConversationId,
+  prependConversation,
+} from '../../redux/chatSlice';
+import { chatHistoryService, toFrontendConversation } from '../../services/api';
 
 export const EmptyChatHero: React.FC = () => {
   const [content, setContent] = useState('');
   const [isVoiceAgentActive, setIsVoiceAgentActive] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { isGenerating, model } = useAppSelector((state) => state.chat);
 
   const adjustHeight = () => {
@@ -32,8 +39,9 @@ export const EmptyChatHero: React.FC = () => {
       textareaRef.current.style.height = 'auto';
     }
 
+    // ── Step 1: Show user message immediately (optimistic UI) ────────────
     dispatch(addMessage({
-      id: Date.now().toString(),
+      id: `temp-user-${Date.now()}`,
       type: 'user',
       content: userContent,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -42,16 +50,38 @@ export const EmptyChatHero: React.FC = () => {
     dispatch(setIsGenerating(true));
 
     try {
-      const response = await chatService.sendMessage(userContent, model);
-      dispatch(addMessage(response));
+      // ── Step 2: Call backend — null conversationId = new conversation ───
+      const result = await chatHistoryService.sendMessage(userContent, null);
+
+      // ── Step 3: Show AI response ─────────────────────────────────────────
+      dispatch(addMessage({
+        id: `ai-${Date.now()}`,
+        type: 'ai',
+        content: result.response,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }));
+
+      // ── Step 4: Only NOW add to sidebar (after successful AI response) ───
+      dispatch(setCurrentConversationId(result.conversationId));
+      dispatch(prependConversation({
+        id: result.conversationId,
+        title: result.title || userContent.slice(0, 40),
+        updatedAt: new Date().toISOString(),
+        group: 'Today',
+      }));
+      navigate(`/c/${result.conversationId}`, { replace: true });
+
     } catch (error) {
       console.error('Failed to send message:', error);
+      // Show error in chat but DO NOT add to sidebar
       dispatch(addMessage({
-        id: Date.now().toString(),
+        id: `error-${Date.now()}`,
         type: 'ai',
         content: 'Sorry, I encountered an error. Please try again.',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       }));
+      // Reset so user can try again with a new chat
+      dispatch(setCurrentConversationId(null));
     } finally {
       dispatch(setIsGenerating(false));
     }
@@ -74,10 +104,10 @@ export const EmptyChatHero: React.FC = () => {
         <span 
           style={{ 
             fontFamily: "'Musashi Brush', cursive",
-            fontSize: '28rem', /* Increased size as requested */
+            fontSize: '28rem',
             lineHeight: 1,
             color: 'var(--text-primary)',
-            opacity: 0.03, /* Extremely subtle solid fill */
+            opacity: 0.03,
             userSelect: 'none',
             whiteSpace: 'nowrap'
           }}
@@ -164,14 +194,13 @@ export const EmptyChatHero: React.FC = () => {
                 <Mic className="w-4 h-4" />
               </button>
 
-              {/* Conditional Voice Assistant / Send / Cancel Button */}
+              {/* Send / Voice / Cancel */}
               {isVoiceAgentActive ? (
                 <button 
                   type="button"
                   onClick={() => setIsVoiceAgentActive(false)}
                   className="h-8 px-3.5 rounded-full flex items-center justify-center gap-1.5 border-none cursor-pointer transition-all"
                   style={{ background: '#003a80', color: '#ffffff', fontSize: '13px', fontWeight: 500 }}
-                  title="Stop voice agent"
                 >
                   <span className="flex gap-0.5 mt-[-4px] tracking-tighter text-lg leading-none opacity-80">•••</span>
                   {content.trim().length === 0 ? 'Cancel' : 'Stop'}
@@ -184,7 +213,6 @@ export const EmptyChatHero: React.FC = () => {
                   style={{ background: 'var(--bg-tertiary)', color: 'var(--text-secondary)' }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-hover)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--bg-tertiary)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
-                  title="Voice assistant chat"
                 >
                   <AudioLines className="w-4 h-4" />
                 </button>
@@ -240,8 +268,6 @@ export const EmptyChatHero: React.FC = () => {
             ))}
           </div>
         </div>
-
-
       </div>
     </div>
   );

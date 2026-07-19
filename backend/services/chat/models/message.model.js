@@ -1,18 +1,26 @@
 import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
-    ConversationId: {
+    conversationId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Conversation"
+        ref: "Conversation",
+        required: true,
+        index: true
     },
     role: {
         type: String,
-        enum: ["user", "assistant"]
+        enum: ["user", "model", "assistant"],
+        required: true
     },
     content: {
         type: String,
+        required: true
+    },
+    feedback: {
+        type: String,
+        enum: ["like", "dislike", null],
+        default: null
     }
-
 }, {
     timestamps: true
 })

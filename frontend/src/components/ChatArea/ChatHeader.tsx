@@ -5,10 +5,10 @@ import { Menu, ChevronDown, Share, Share2, MoreVertical, PanelLeft } from 'lucid
 
 export const ChatHeader: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { chats, currentChatId, messages, model } = useAppSelector((state) => state.chat);
+  const { conversations, currentConversationId, messages, model } = useAppSelector((state) => state.chat);
   const { isSidebarOpen } = useAppSelector((state) => state.ui);
 
-  const currentChat = chats.find(c => c.id === currentChatId);
+  const currentChat = conversations.find(c => c.id === currentConversationId);
 
   return (
     <header
