@@ -10,6 +10,12 @@ interface UiState {
   isSettingsModalOpen: boolean;
   isSearchModalOpen: boolean;
   activeView: ActiveView;
+  isArtifactPanelOpen: boolean;
+  activeArtifact: {
+    content: string;
+    language: string;
+    artifactType: string;
+  } | null;
 }
 
 const getInitialTheme = (): Theme => {
@@ -27,6 +33,8 @@ const initialState: UiState = {
   isSettingsModalOpen: false,
   isSearchModalOpen: false,
   activeView: 'chat',
+  isArtifactPanelOpen: false,
+  activeArtifact: null,
 };
 
 export const uiSlice = createSlice({
@@ -64,6 +72,17 @@ export const uiSlice = createSlice({
     setActiveView: (state, action: PayloadAction<ActiveView>) => {
       state.activeView = action.payload;
     },
+    setArtifactPanelOpen: (state, action: PayloadAction<boolean>) => {
+      state.isArtifactPanelOpen = action.payload;
+    },
+    setActiveArtifact: (state, action: PayloadAction<{ content: string; language: string; artifactType: string } | null>) => {
+      state.activeArtifact = action.payload;
+    },
+    appendArtifactContent: (state, action: PayloadAction<string>) => {
+      if (state.activeArtifact) {
+        state.activeArtifact.content += action.payload;
+      }
+    },
   },
 });
 
@@ -77,6 +96,9 @@ export const {
   setSettingsModalOpen,
   setSearchModalOpen,
   setActiveView,
+  setArtifactPanelOpen,
+  setActiveArtifact,
+  appendArtifactContent,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

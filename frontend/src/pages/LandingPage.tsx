@@ -24,7 +24,7 @@ export const LandingPage: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/chat', { replace: true });
+      navigate('/', { replace: true });
     }
   }, [isAuthenticated, navigate]);
 

@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setSidebarOpen, toggleTheme, setSettingsModalOpen, toggleSidebar, setActiveView, setSearchModalOpen } from '../../redux/uiSlice';
+import { startNewChat } from '../../redux/chatSlice';
 import { X, Plus, Search, Settings, HelpCircle, ChevronRight, LogOut, PanelLeft, SquarePen, Bot, Presentation, MessageSquare, Code, Image, FileText } from 'lucide-react';
 import { ChatList } from './ChatList';
 import { cn } from '../../lib/utils';
@@ -8,6 +10,7 @@ import { useAuth } from '../../features/auth/hooks/useAuth';
 
 export const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { isSidebarOpen, activeView } = useAppSelector((state) => state.ui);
 
   const { user, logout } = useAuth();
@@ -105,11 +108,15 @@ export const Sidebar: React.FC = () => {
               }}
               onMouseEnter={(e) => { if (activeView !== 'chat') e.currentTarget.style.background = 'var(--bg-hover)' }}
               onMouseLeave={(e) => { if (activeView !== 'chat') e.currentTarget.style.background = 'transparent' }}
-              onClick={() => dispatch(setActiveView('chat'))}
-              title="Chat"
+              onClick={() => {
+                dispatch(setActiveView('chat'));
+                dispatch(startNewChat());
+                navigate('/');
+              }}
+              title="New Chat"
             >
               <SquarePen className="w-[15px] h-[15px] flex-shrink-0" />
-              {isSidebarOpen && <span className="text-[13px] font-medium whitespace-nowrap">Chat</span>}
+              {isSidebarOpen && <span className="text-[13px] font-medium whitespace-nowrap">New Chat</span>}
             </button>
             
             <button 

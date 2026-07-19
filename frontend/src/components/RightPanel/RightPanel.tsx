@@ -7,9 +7,9 @@ import { cn } from '../../lib/utils';
 export const RightPanel: React.FC = () => {
   const dispatch = useAppDispatch();
   const { isPanelOpen } = useAppSelector((state) => state.ui);
-  const { chats, currentChatId, topics, files, messages, model } = useAppSelector((state) => state.chat);
+  const { conversations, currentConversationId, topics, files, messages, model } = useAppSelector((state) => state.chat);
 
-  const currentChat = chats.find(c => c.id === currentChatId);
+  const currentChat = conversations.find(c => c.id === currentConversationId);
 
   return (
     <>
@@ -58,7 +58,7 @@ export const RightPanel: React.FC = () => {
                 Created
               </div>
               <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                {currentChat?.time || 'Just now'}
+                {'Just now'}
               </div>
             </div>
 
